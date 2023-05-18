@@ -13,9 +13,7 @@ export default function Player() {
 				<div key={song.id}>
 					<h1>{song.name['name-USen']}</h1>
 					<img src={song.image_uri} style={{width: '100px'}} />
-					<audio src={song.music_uri} controls>
-						Music
-					</audio>
+					<audio src={song.music_uri} controls></audio>
 				</div>
 			))}
 		</div>
