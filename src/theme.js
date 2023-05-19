@@ -2,6 +2,7 @@ import {createGlobalStyle} from 'styled-components';
 
 export const defaultTheme = {
 	bgColor1: '#F8F3E7',
+	blue: '#89ced7',
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -56,9 +57,16 @@ body{
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  background-color: ${(props) => props.theme.bgColor1};
-
+  background: url(/images/background-large.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+@media only screen and (max-width:720px) {
+  body{
+    background: url(/images/background-medium.jpeg);
+  }
+}
+
 a{
 	text-decoration: none;
   color:inherit;
@@ -71,6 +79,7 @@ input{
 button{
   padding: 0;
   border: 0;
+  background: transparent;
   cursor: pointer;
 }
 i{
