@@ -68,10 +68,8 @@ export default function Player() {
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
-	// const randomIndex = data ? Math.floor(Math.random() * data.length) : 0;
 	const song = data?.[currentSongIndex];
-	// console.log('prev', previousSongIndex.current);
-	// console.log('current', currentSongIndex);
+
 	const handleNextSong = () => {
 		previousSongIndex.current = currentSongIndex;
 		setCurrentSongIndex((prevIndex) => {
@@ -150,7 +148,8 @@ export default function Player() {
 							src={song.music_uri}
 							ref={audioRef}
 							onEnded={handleAudioEnded}
-							controls></audio>
+							controls
+							autoPlay={true}></audio>
 					</Audio>
 				</MyPlayer>
 			</Container>
