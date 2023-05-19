@@ -65,14 +65,23 @@ const Audio = styled.div`
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [currentSongIndex, setCurrentSongIndex] = useState(1);
+	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const audioRef = useRef(null);
+	const previousSongIndex = useRef(null);
 	const randomIndex = data ? Math.floor(Math.random() * data.length) : 0;
 	const song = data?.[currentSongIndex];
 
 	const handleNextSong = () => {
+		previousSongIndex.current = currentSongIndex;
 		setCurrentSongIndex(randomIndex);
 	};
+
+	const handlePrevSong = () => {
+		if (previousSongIndex.current !== null) {
+			setCurrentSongIndex(previousSongIndex.current);
+		}
+	};
+
 	const handleAudioEnded = () => {
 		setIsPlaying(false);
 	};
@@ -108,7 +117,7 @@ export default function Player() {
 						<AlbumImg src={song.image_uri} />
 					</Album>
 					<Buttons>
-						<Button>
+						<Button onClick={handlePrevSong}>
 							<i className="fa-solid fa-angles-left"></i>
 						</Button>
 						<Button onClick={handlePlay}>
