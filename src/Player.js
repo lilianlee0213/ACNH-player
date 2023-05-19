@@ -68,17 +68,30 @@ export default function Player() {
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
-	const randomIndex = data ? Math.floor(Math.random() * data.length) : 0;
+	// const randomIndex = data ? Math.floor(Math.random() * data.length) : 0;
 	const song = data?.[currentSongIndex];
-
+	// console.log('prev', previousSongIndex.current);
+	// console.log('current', currentSongIndex);
 	const handleNextSong = () => {
 		previousSongIndex.current = currentSongIndex;
-		setCurrentSongIndex(randomIndex);
+		setCurrentSongIndex((prevIndex) => {
+			let newIndex = prevIndex + 1;
+			if (newIndex === data?.length) {
+				newIndex = 0;
+			}
+			return newIndex;
+		});
 	};
 
 	const handlePrevSong = () => {
-		if (previousSongIndex.current !== null) {
-			setCurrentSongIndex(previousSongIndex.current);
+		if (currentSongIndex === 0) {
+			const lastIndex = data?.length - 1;
+			previousSongIndex.current = lastIndex;
+			setCurrentSongIndex(lastIndex);
+		} else {
+			const newIndex = currentSongIndex - 1;
+			previousSongIndex.current = currentSongIndex;
+			setCurrentSongIndex(newIndex);
 		}
 	};
 
