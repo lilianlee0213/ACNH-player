@@ -2,7 +2,8 @@ import {createGlobalStyle} from 'styled-components';
 
 export const defaultTheme = {
 	bgColor1: '#F8F3E7',
-	blue: '#89ced7',
+	blue: '#BCDFF8',
+	darkBlue: '#5588B8',
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -60,6 +61,7 @@ body{
   background: url(/images/background-large.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: 'Rubik', sans-serif;
 }
 @media only screen and (max-width:720px) {
   body{

@@ -1,8 +1,7 @@
 import {useQuery} from 'react-query';
 import {getSongs} from './Api';
 import styled from 'styled-components';
-import Wave from './components/Wave';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -14,30 +13,41 @@ const Wrapper = styled.div`
 `;
 const Container = styled.div`
 	position: relative;
-	padding: 8vw;
+	padding: 20px 20px 15px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
-	background-color: ${(props) => props.theme.bgColor1};
-	/* height: 500px; */
+	background-image: url('/images/wave-haikei.png');
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
 `;
 const MyPlayer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 20px;
+	/* gap: 15px; */
 	height: 100%;
 	max-width: 400px;
 `;
 const Menu = styled.div`
 	align-self: flex-start;
 `;
+
 const Album = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 15px;
+	padding: 0 10px;
+	text-align: center;
+`;
+const AlbumTitle = styled.h1`
+	margin-bottom: 5px;
+	font-size: 24px;
+	font-weight: 500;
+	color: ${(props) => props.theme.darkBlue};
 `;
 const AlbumImg = styled.img`
 	object-fit: cover;
 	width: 100%;
-	max-width: 250px;
+	max-width: 230px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
 `;
@@ -46,11 +56,12 @@ const Buttons = styled.div`
 	width: 100%;
 	justify-content: space-evenly;
 	gap: 20px;
+	margin-bottom: 20px;
 `;
 const Button = styled.button`
-	font-size: 6vw;
+	font-size: 25px;
 	i {
-		color: ${(props) => props.theme.blue};
+		color: ${(props) => props.theme.darkBlue};
 		opacity: 0.8;
 	}
 	&:hover {
@@ -61,29 +72,73 @@ const Button = styled.button`
 `;
 const Audio = styled.div`
 	grid-area: c;
+	width: 100%;
+	/* height: 45px;
+	border-radius: 35px; */
+`;
+const AudioMeta = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
 `;
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
+	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
 
-	const getDuration = () => {
+	useEffect(() => {
+		const handleTimeUpdate = () => {
+			if (audioRef.current) {
+				const audioElement = audioRef.current;
+				const audioCurrentTime = Math.floor(audioElement.currentTime);
+				const minute = Math.floor(audioCurrentTime / 60);
+				const second = audioCurrentTime % 60;
+				const formattedTime = `${minute}:${second.toString().padStart(2, '0')}`;
+				setCurrentTime(formattedTime);
+			}
+		};
 		if (audioRef.current) {
-			const audioElement = audioRef.current;
-			const audioDuration = Math.floor(audioElement.duration);
-			const minute = Math.floor(audioDuration / 60);
-			const second = audioDuration % 60;
-			const formattedDuration = `${minute}:${second
-				.toString()
-				.padStart(2, '0')}`;
-			console.log(`duration is ${formattedDuration}`);
-			setDuration(formattedDuration);
+			audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
 		}
-	};
+
+		return () => {
+			if (audioRef.current) {
+				audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+			}
+		};
+	}, []);
+
+	useEffect(() => {
+		const getDuration = () => {
+			if (audioRef.current) {
+				const audioElement = audioRef.current;
+				const audioDuration = Math.floor(audioElement.duration);
+				const minute = Math.floor(audioDuration / 60);
+				const second = audioDuration % 60;
+				const formattedDuration = `${minute}:${second
+					.toString()
+					.padStart(2, '0')}`;
+				setDuration(formattedDuration);
+			}
+		};
+
+		if (audioRef.current) {
+			audioRef.current.addEventListener('loadedmetadata', getDuration);
+		}
+
+		return () => {
+			if (audioRef.current) {
+				audioRef.current.removeEventListener('loadedmetadata', getDuration);
+			}
+		};
+	}, []);
+
 	const handleAudioEnded = () => {
 		handleNextSong();
 	};
@@ -127,7 +182,6 @@ export default function Player() {
 	return (
 		<Wrapper>
 			<Container>
-				<Wave />
 				<MyPlayer>
 					<Menu>
 						<Button>
@@ -135,6 +189,7 @@ export default function Player() {
 						</Button>
 					</Menu>
 					<Album>
+						<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
 						<AlbumImg src={song.image_uri} />
 					</Album>
 					<Buttons>
@@ -153,11 +208,14 @@ export default function Player() {
 						</Button>
 					</Buttons>
 					<Audio>
-						<h1>{song.name['name-USen']}</h1>
+						<AudioMeta>
+							<span>{currentTime}</span>
+							<input type="range" />
+							<span>{duration}</span>
+						</AudioMeta>
 						<audio
 							src={song.music_uri}
 							ref={audioRef}
-							onLoadedMetadata={getDuration}
 							onEnded={handleAudioEnded}
 							controls
 							autoPlay={true}></audio>
