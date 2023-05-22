@@ -2,7 +2,7 @@ import {useQuery} from 'react-query';
 import {getSongs} from './Api';
 import styled from 'styled-components';
 import Wave from './components/Wave';
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -66,10 +66,27 @@ export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
+	const [duration, setDuration] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
 
+	const getDuration = () => {
+		if (audioRef.current) {
+			const audioElement = audioRef.current;
+			const audioDuration = Math.floor(audioElement.duration);
+			const minute = Math.floor(audioDuration / 60);
+			const second = audioDuration % 60;
+			const formattedDuration = `${minute}:${second
+				.toString()
+				.padStart(2, '0')}`;
+			console.log(`duration is ${formattedDuration}`);
+			setDuration(formattedDuration);
+		}
+	};
+	const handleAudioEnded = () => {
+		handleNextSong();
+	};
 	const handleNextSong = () => {
 		previousSongIndex.current = currentSongIndex;
 		setCurrentSongIndex((prevIndex) => {
@@ -93,9 +110,6 @@ export default function Player() {
 		}
 	};
 
-	const handleAudioEnded = () => {
-		handleNextSong();
-	};
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
 		if (audioRef.current) {
@@ -143,6 +157,7 @@ export default function Player() {
 						<audio
 							src={song.music_uri}
 							ref={audioRef}
+							onLoadedMetadata={getDuration}
 							onEnded={handleAudioEnded}
 							controls
 							autoPlay={true}></audio>
