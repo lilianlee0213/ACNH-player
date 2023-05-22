@@ -94,7 +94,7 @@ export default function Player() {
 	};
 
 	const handleAudioEnded = () => {
-		setIsPlaying(false);
+		handleNextSong();
 	};
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
@@ -109,10 +109,6 @@ export default function Player() {
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
-	// if (!currentSong) {
-	// 	setcurrentSong(song);
-	// 	console.lopg
-	// }
 
 	return (
 		<Wrapper>
