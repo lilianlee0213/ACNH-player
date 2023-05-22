@@ -11,6 +11,7 @@ const Wrapper = styled.div`
 	height: 100vh;
 	margin: 0 20px;
 `;
+
 const Container = styled.div`
 	position: relative;
 	padding: 20px 20px 15px;
@@ -21,14 +22,15 @@ const Container = styled.div`
 	background-position: center center;
 	background-repeat: no-repeat;
 `;
+
 const MyPlayer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* gap: 15px; */
 	height: 100%;
 	max-width: 400px;
 `;
+
 const Menu = styled.div`
 	align-self: flex-start;
 `;
@@ -38,12 +40,14 @@ const Album = styled.div`
 	padding: 0 10px;
 	text-align: center;
 `;
+
 const AlbumTitle = styled.h1`
 	margin-bottom: 5px;
 	font-size: 24px;
 	font-weight: 500;
 	color: ${(props) => props.theme.darkBlue};
 `;
+
 const AlbumImg = styled.img`
 	object-fit: cover;
 	width: 100%;
@@ -51,6 +55,7 @@ const AlbumImg = styled.img`
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
 `;
+
 const Buttons = styled.div`
 	display: flex;
 	width: 100%;
@@ -58,6 +63,7 @@ const Buttons = styled.div`
 	gap: 20px;
 	margin-bottom: 20px;
 `;
+
 const Button = styled.button`
 	font-size: 25px;
 	i {
@@ -70,78 +76,50 @@ const Button = styled.button`
 		}
 	}
 `;
+
 const Audio = styled.div`
 	grid-area: c;
 	width: 100%;
-	/* height: 45px;
-	border-radius: 35px; */
 `;
+
 const AudioMeta = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 10px;
 `;
+
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
-	const [currentTime, setCurrentTime] = useState(0);
+	const [time, setTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
 
-	useEffect(() => {
-		const handleTimeUpdate = () => {
-			if (audioRef.current) {
-				const audioElement = audioRef.current;
-				const audioCurrentTime = Math.floor(audioElement.currentTime);
-				const minute = Math.floor(audioCurrentTime / 60);
-				const second = audioCurrentTime % 60;
-				const formattedTime = `${minute}:${second.toString().padStart(2, '0')}`;
-				setCurrentTime(formattedTime);
-			}
-		};
+	const handleTimeUpdate = () => {
 		if (audioRef.current) {
-			audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
+			const seconds = Math.floor(audioRef.current.currentTime);
+			setTime(seconds);
 		}
-
-		return () => {
-			if (audioRef.current) {
-				audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
-			}
-		};
-	}, []);
-
-	useEffect(() => {
-		const getDuration = () => {
-			if (audioRef.current) {
-				const audioElement = audioRef.current;
-				const audioDuration = Math.floor(audioElement.duration);
-				const minute = Math.floor(audioDuration / 60);
-				const second = audioDuration % 60;
-				const formattedDuration = `${minute}:${second
-					.toString()
-					.padStart(2, '0')}`;
-				setDuration(formattedDuration);
-			}
-		};
-
+	};
+	const formattedTime = (sec) => {
+		const minute = Math.floor(sec / 60);
+		const second = sec % 60;
+		return `${minute}:${second.toString().padStart(2, '0')}`;
+	};
+	const handleDuration = () => {
 		if (audioRef.current) {
-			audioRef.current.addEventListener('loadedmetadata', getDuration);
+			const seconds = Math.floor(audioRef.current.duration);
+			setDuration(seconds);
 		}
-
-		return () => {
-			if (audioRef.current) {
-				audioRef.current.removeEventListener('loadedmetadata', getDuration);
-			}
-		};
-	}, []);
-
+	};
 	const handleAudioEnded = () => {
 		handleNextSong();
 	};
+
 	const handleNextSong = () => {
 		previousSongIndex.current = currentSongIndex;
 		setCurrentSongIndex((prevIndex) => {
@@ -175,6 +153,7 @@ export default function Player() {
 			}
 		}
 	};
+
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
@@ -190,7 +169,7 @@ export default function Player() {
 					</Menu>
 					<Album>
 						<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
-						<AlbumImg src={song.image_uri} />
+						<AlbumImg src={song.image_uri} alt="Album Cover" />
 					</Album>
 					<Buttons>
 						<Button onClick={handlePrevSong}>
@@ -209,16 +188,17 @@ export default function Player() {
 					</Buttons>
 					<Audio>
 						<AudioMeta>
-							<span>{currentTime}</span>
+							<span>{formattedTime(parseInt(time))}</span>
 							<input type="range" />
-							<span>{duration}</span>
+							<span>{formattedTime(parseInt(duration))}</span>
 						</AudioMeta>
 						<audio
 							src={song.music_uri}
 							ref={audioRef}
 							onEnded={handleAudioEnded}
-							controls
-							autoPlay={true}></audio>
+							onTimeUpdate={handleTimeUpdate}
+							onLoadedMetadata={handleDuration}
+							controls></audio>
 					</Audio>
 				</MyPlayer>
 			</Container>
