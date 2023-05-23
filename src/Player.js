@@ -1,7 +1,8 @@
 import {useQuery} from 'react-query';
 import {getSongs} from './Api';
 import styled from 'styled-components';
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
+import Audio from './components/Audio';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -23,7 +24,7 @@ const Container = styled.div`
 	background-repeat: no-repeat;
 `;
 
-const MyPlayer = styled.div`
+const PlayerContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -31,7 +32,7 @@ const MyPlayer = styled.div`
 	max-width: 400px;
 `;
 
-const Menu = styled.div`
+const MenuButton = styled.div`
 	align-self: flex-start;
 `;
 
@@ -56,7 +57,7 @@ const AlbumImg = styled.img`
 	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
 `;
 
-const Buttons = styled.div`
+const ControlButton = styled.div`
 	display: flex;
 	width: 100%;
 	justify-content: space-evenly;
@@ -77,18 +78,6 @@ const Button = styled.button`
 	}
 `;
 
-const Audio = styled.div`
-	grid-area: c;
-	width: 100%;
-`;
-
-const AudioMeta = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 10px;
-`;
-
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -99,16 +88,16 @@ export default function Player() {
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
 
+	const formattedTime = (sec) => {
+		const minute = Math.floor(sec / 60);
+		const second = sec % 60;
+		return `${minute}:${second.toString().padStart(2, '0')}`;
+	};
 	const handleTimeUpdate = () => {
 		if (audioRef.current) {
 			const seconds = Math.floor(audioRef.current.currentTime);
 			setTime(seconds);
 		}
-	};
-	const formattedTime = (sec) => {
-		const minute = Math.floor(sec / 60);
-		const second = sec % 60;
-		return `${minute}:${second.toString().padStart(2, '0')}`;
 	};
 	const handleDuration = () => {
 		if (audioRef.current) {
@@ -123,34 +112,20 @@ export default function Player() {
 	const handleNextSong = () => {
 		previousSongIndex.current = currentSongIndex;
 		setCurrentSongIndex((prevIndex) => {
-			let newIndex = prevIndex + 1;
-			if (newIndex === data?.length) {
-				newIndex = 0;
-			}
-			return newIndex;
+			return prevIndex === data?.length - 1 ? 0 : prevIndex + 1;
 		});
 	};
 
 	const handlePrevSong = () => {
-		if (currentSongIndex === 0) {
-			const lastIndex = data?.length - 1;
-			previousSongIndex.current = lastIndex;
-			setCurrentSongIndex(lastIndex);
-		} else {
-			const newIndex = currentSongIndex - 1;
-			previousSongIndex.current = currentSongIndex;
-			setCurrentSongIndex(newIndex);
-		}
+		setCurrentSongIndex((prevIndex) =>
+			prevIndex === 0 ? data?.length - 1 : prevIndex - 1
+		);
 	};
 
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
 		if (audioRef.current) {
-			if (isPlaying) {
-				audioRef.current.pause();
-			} else {
-				audioRef.current.play();
-			}
+			isPlaying ? audioRef.current.pause() : audioRef.current.play();
 		}
 	};
 
@@ -161,17 +136,17 @@ export default function Player() {
 	return (
 		<Wrapper>
 			<Container>
-				<MyPlayer>
-					<Menu>
+				<PlayerContainer>
+					<MenuButton>
 						<Button>
 							<i className="fa-solid fa-bars"></i>
 						</Button>
-					</Menu>
+					</MenuButton>
 					<Album>
 						<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
 						<AlbumImg src={song.image_uri} alt="Album Cover" />
 					</Album>
-					<Buttons>
+					<ControlButton>
 						<Button onClick={handlePrevSong}>
 							<i className="fa-solid fa-angles-left"></i>
 						</Button>
@@ -185,22 +160,17 @@ export default function Player() {
 						<Button onClick={handleNextSong}>
 							<i className="fa-solid fa-angles-right"></i>
 						</Button>
-					</Buttons>
-					<Audio>
-						<AudioMeta>
-							<span>{formattedTime(parseInt(time))}</span>
-							<input type="range" />
-							<span>{formattedTime(parseInt(duration))}</span>
-						</AudioMeta>
-						<audio
-							src={song.music_uri}
-							ref={audioRef}
-							onEnded={handleAudioEnded}
-							onTimeUpdate={handleTimeUpdate}
-							onLoadedMetadata={handleDuration}
-							controls></audio>
-					</Audio>
-				</MyPlayer>
+					</ControlButton>
+					<Audio
+						time={formattedTime(parseInt(time))}
+						duration={formattedTime(parseInt(duration))}
+						song={song.music_uri}
+						songRef={audioRef}
+						handleAudioEnded={handleAudioEnded}
+						handleTimeUpdate={handleTimeUpdate}
+						handleDuration={handleDuration}
+					/>
+				</PlayerContainer>
 			</Container>
 		</Wrapper>
 	);
