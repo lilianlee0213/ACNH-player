@@ -1,8 +1,9 @@
 import {useQuery} from 'react-query';
-import {getSongs} from './Api';
-import styled from 'styled-components';
 import {useEffect, useRef, useState} from 'react';
+import styled from 'styled-components';
+import {getSongs} from './Api';
 import Audio from './components/Audio';
+import Controls from './components/Controls';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -57,14 +58,6 @@ const AlbumImg = styled.img`
 	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
 `;
 
-const ControlButton = styled.div`
-	display: flex;
-	width: 100%;
-	justify-content: space-evenly;
-	gap: 20px;
-	margin-bottom: 20px;
-`;
-
 const Button = styled.button`
 	font-size: 25px;
 	i {
@@ -108,6 +101,12 @@ export default function Player() {
 		setProgress(time);
 	}, [time]);
 
+	const formattedTime = (sec) => {
+		const minute = Math.floor(sec / 60);
+		const second = sec % 60;
+		return `${minute}:${second.toString().padStart(2, '0')}`;
+	};
+
 	const handleProgressBar = (event) => {
 		const inputValue = event.target.value;
 		setProgress(inputValue);
@@ -116,12 +115,6 @@ export default function Player() {
 			setTime(inputValue);
 		}
 	};
-	const formattedTime = (sec) => {
-		const minute = Math.floor(sec / 60);
-		const second = sec % 60;
-		return `${minute}:${second.toString().padStart(2, '0')}`;
-	};
-
 	const handleTimeUpdate = () => {
 		if (audioRef.current) {
 			const seconds = Math.floor(audioRef.current.currentTime);
@@ -175,21 +168,13 @@ export default function Player() {
 						<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
 						<AlbumImg src={song.image_uri} alt="Album Cover" />
 					</Album>
-					<ControlButton>
-						<Button onClick={handlePrevSong}>
-							<i className="fa-solid fa-angles-left"></i>
-						</Button>
-						<Button onClick={handlePlay}>
-							{isPlaying ? (
-								<i className="fa-solid fa-pause"></i>
-							) : (
-								<i className="fa-solid fa-play"></i>
-							)}
-						</Button>
-						<Button onClick={handleNextSong}>
-							<i className="fa-solid fa-angles-right"></i>
-						</Button>
-					</ControlButton>
+					<Controls
+						handlePrevSong={handlePrevSong}
+						handlePlay={handlePlay}
+						handleNextSong={handleNextSong}
+						isPlaying={isPlaying}
+						button={Button}
+					/>
 					<Audio
 						time={formattedTime(parseInt(time))}
 						duration={formattedTime(parseInt(duration))}
