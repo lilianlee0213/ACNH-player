@@ -17,7 +17,14 @@ export default function Audio(props) {
 		<AudioFile>
 			<AudioMeta>
 				<span>{props.time}</span>
-				<input type="range" />
+				<input
+					type="range"
+					step="1"
+					min="0"
+					max={props.finish}
+					value={props.value}
+					onInput={props.handleProgressBar}
+				/>
 				<span>{props.duration}</span>
 			</AudioMeta>
 			<audio
@@ -26,7 +33,8 @@ export default function Audio(props) {
 				onEnded={props.handleAudioEnded}
 				onTimeUpdate={props.handleTimeUpdate}
 				onLoadedMetadata={props.handleDuration}
-				controls></audio>
+				controls
+				autoPlay></audio>
 		</AudioFile>
 	);
 }

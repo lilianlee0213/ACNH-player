@@ -1,7 +1,7 @@
 import {useQuery} from 'react-query';
 import {getSongs} from './Api';
 import styled from 'styled-components';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Audio from './components/Audio';
 
 const Wrapper = styled.div`
@@ -83,16 +83,30 @@ export default function Player() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const [time, setTime] = useState(0);
+	const [progress, setProgress] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
 
+	useEffect(() => {
+		setProgress(time);
+	}, [time]);
+
+	const handleProgressBar = (event) => {
+		const inputValue = event.target.value;
+		setProgress(inputValue);
+		if (audioRef.current) {
+			audioRef.current.currentTime = inputValue;
+			setTime(inputValue);
+		}
+	};
 	const formattedTime = (sec) => {
 		const minute = Math.floor(sec / 60);
 		const second = sec % 60;
 		return `${minute}:${second.toString().padStart(2, '0')}`;
 	};
+
 	const handleTimeUpdate = () => {
 		if (audioRef.current) {
 			const seconds = Math.floor(audioRef.current.currentTime);
@@ -164,6 +178,9 @@ export default function Player() {
 					<Audio
 						time={formattedTime(parseInt(time))}
 						duration={formattedTime(parseInt(duration))}
+						value={progress}
+						finish={duration}
+						handleProgressBar={handleProgressBar}
 						song={song.music_uri}
 						songRef={audioRef}
 						handleAudioEnded={handleAudioEnded}
