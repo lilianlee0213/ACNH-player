@@ -88,6 +88,21 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
+	useEffect(() => {
+		if (audioRef.current) {
+			if (isPlaying) {
+				audioRef.current.play();
+			} else {
+				audioRef.current.pause();
+			}
+		}
+	}, [isPlaying]);
+	useEffect(() => {
+		if (audioRef.current) {
+			audioRef.current.play();
+			setIsPlaying(true);
+		}
+	}, [currentSongIndex]);
 
 	useEffect(() => {
 		setProgress(time);
@@ -139,7 +154,7 @@ export default function Player() {
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
 		if (audioRef.current) {
-			isPlaying ? audioRef.current.pause() : audioRef.current.play();
+			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
 
