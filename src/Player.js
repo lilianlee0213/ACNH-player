@@ -86,15 +86,7 @@ export default function Player() {
 				audioRef.current.pause();
 			}
 		}
-	}, [isPlaying]);
-	useEffect(() => {
-		if (audioRef.current) {
-			audioRef.current.load();
-			audioRef.current.play().catch((error) => {
-				console.error('Failed to play audio:', error);
-			});
-		}
-	}, [currentSongIndex, audioRef]);
+	}, [isPlaying, currentSongIndex]);
 
 	useEffect(() => {
 		setProgress(time);
@@ -131,16 +123,35 @@ export default function Player() {
 	};
 
 	const handleNextSong = () => {
-		previousSongIndex.current = currentSongIndex;
-		setCurrentSongIndex((prevIndex) => {
-			return prevIndex === data?.length - 1 ? 0 : prevIndex + 1;
-		});
+		if (audioRef.current) {
+			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
+				audioRef.current.isLoading = true; // Set the flag to indicate a new song is being loaded
+				previousSongIndex.current = currentSongIndex;
+				setCurrentSongIndex((prevIndex) =>
+					prevIndex === data?.length - 1 ? 0 : prevIndex + 1
+				);
+				handleSongChangeTime();
+			}
+		}
 	};
 
 	const handlePrevSong = () => {
-		setCurrentSongIndex((prevIndex) =>
-			prevIndex === 0 ? data?.length - 1 : prevIndex - 1
-		);
+		if (audioRef.current) {
+			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
+				audioRef.current.isLoading = true;
+				setCurrentSongIndex((prevIndex) =>
+					prevIndex === 0 ? data?.length - 1 : prevIndex - 1
+				);
+				handleSongChangeTime();
+			}
+		}
+	};
+	const handleSongChangeTime = () => {
+		setIsPlaying(false);
+		setTimeout(() => {
+			setIsPlaying(true);
+			audioRef.current.isLoading = false;
+		}, 300);
 	};
 
 	const handlePlay = () => {
