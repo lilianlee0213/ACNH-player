@@ -78,17 +78,16 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
-	const audioElement = audioRef.current;
 
 	useEffect(() => {
-		if (audioElement) {
+		if (audioRef.current) {
 			if (isPlaying) {
-				audioElement.play();
+				audioRef.current.play();
 			} else {
-				audioElement.pause();
+				audioRef.current.pause();
 			}
 		}
-	}, [isPlaying, currentSongIndex]);
+	}, [isPlaying]);
 
 	useEffect(() => {
 		setProgress(startTime);
@@ -103,20 +102,20 @@ export default function Player() {
 	const handleProgressBar = (event) => {
 		const inputValue = event.target.value;
 		setProgress(inputValue);
-		if (audioElement) {
-			audioElement.currentTime = inputValue;
+		if (audioRef.current) {
+			audioRef.current.currentTime = inputValue;
 			setStartTime(inputValue);
 		}
 	};
 	const handleTimeUpdate = () => {
-		if (audioElement) {
-			const seconds = Math.floor(audioElement.currentTime);
+		if (audioRef.current) {
+			const seconds = Math.floor(audioRef.current.currentTime);
 			setStartTime(seconds);
 		}
 	};
 	const handleDuration = () => {
-		if (audioElement) {
-			const seconds = Math.floor(audioElement.duration);
+		if (audioRef.current) {
+			const seconds = Math.floor(audioRef.current.duration);
 			setEndTime(seconds);
 		}
 	};
@@ -125,9 +124,9 @@ export default function Player() {
 	};
 
 	const handleNextSong = () => {
-		if (audioElement) {
-			if (audioElement.readyState === 4 && !audioElement.isLoading) {
-				audioElement.isLoading = true;
+		if (audioRef.current) {
+			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
+				audioRef.current.isLoading = true;
 				previousSongIndex.current = currentSongIndex;
 				setCurrentSongIndex((prevIndex) =>
 					prevIndex === data?.length - 1 ? 0 : prevIndex + 1
@@ -138,9 +137,9 @@ export default function Player() {
 	};
 
 	const handlePrevSong = () => {
-		if (audioElement) {
-			if (audioElement.readyState === 4 && !audioElement.isLoading) {
-				audioElement.isLoading = true;
+		if (audioRef.current) {
+			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
+				audioRef.current.isLoading = true;
 				setCurrentSongIndex((prevIndex) =>
 					prevIndex === 0 ? data?.length - 1 : prevIndex - 1
 				);
@@ -152,14 +151,14 @@ export default function Player() {
 		setIsPlaying(false);
 		setTimeout(() => {
 			setIsPlaying(true);
-			audioElement.isLoading = false;
+			audioRef.current.isLoading = false;
 		}, 300);
 	};
 
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
-		if (audioElement) {
-			isPlaying ? audioElement.play() : audioElement.pause();
+		if (audioRef.current) {
+			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
 
