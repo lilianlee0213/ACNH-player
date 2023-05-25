@@ -7,15 +7,18 @@ const AudioFile = styled.div`
 
 const AudioMeta = styled.div`
 	display: flex;
-	align-items: center;
 	justify-content: space-between;
-	padding: 10px;
+	align-items: center;
+	padding-left: 2px;
+	span {
+		font-size: 14px;
+		color: #222;
+	}
 `;
 const ProgressBar = styled.input`
 	appearance: none;
 	width: 100%;
-	height: 8px;
-	border-radius: 4px;
+	height: 5px;
 	background: linear-gradient(
 		to right,
 		#f7d359 0%,
@@ -55,16 +58,16 @@ const ProgressBar = styled.input`
 export default function Audio(props) {
 	return (
 		<AudioFile>
+			<ProgressBar
+				type="range"
+				step="1"
+				min="0"
+				max={props.finish}
+				value={props.value}
+				onInput={props.handleProgressBar}
+			/>
 			<AudioMeta>
 				<span>{props.time}</span>
-				<ProgressBar
-					type="range"
-					step="1"
-					min="0"
-					max={props.finish}
-					value={props.value}
-					onInput={props.handleProgressBar}
-				/>
 				<span>{props.duration}</span>
 			</AudioMeta>
 			<audio
