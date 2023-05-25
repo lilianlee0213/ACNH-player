@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {motion} from 'framer-motion';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -48,8 +48,10 @@ const Text = styled(motion.h2)`
 	font-family: 'Mukta', sans-serif;
 	font-weight: 600;
 	line-height: 1.2;
-	color: ${(props) => props.theme.brown};
+	color: ${(props) => (props.lastLine ? props.theme.blue : props.theme.brown)};
+	font-size: ${(props) => (props.lastLine ? '20px' : '16px')};
 `;
+
 const NextBtn = styled.button`
 	position: absolute;
 	top: 37%;
@@ -62,31 +64,69 @@ const NextBtn = styled.button`
 	z-index: 10;
 `;
 const letterVariants = {
-	hidden: {visibility: 'hidden', y: 50},
-	visible: {visibility: 'visible', y: 0},
+	hidden: {visibility: 'hidden'},
+	visible: {visibility: 'visible'},
 };
+
 export default function Home() {
-	const line1 =
-		"Welcome to ACNH Music Player! I'm K.K. Slider, the howlin' hound with a guitar in paw.";
-	const line2 = 'Get ready to groove and let the melodies uplift your spirits!';
+	const [line, setLine] = useState(
+		"Welcome to ACNH Music Player! I'm K.K. Slider, the howlin' hound with a guitar in paw."
+	);
+	const [animate, setAnimate] = useState(true);
+	const [lastLine, setListLine] = useState(false);
+	// const showDialouge = () => {
+	// 	setAnimate(false);
+	// 	setTimeout(() => setAnimate(true), 0);
+	// 	setLine('Get ready to groove and let the melodies uplift your spirits!');
+	// 	if (line.startsWith('Get')) {
+	// 		setListLine(true);
+	// 	}
+	// 	if (start) {
+	// 		setAnimate(false);
+	// 		setTimeout(() => setAnimate(true), 0);
+	// 		setLine("Arf-arf, let's make the music play!");
+	// 	}
+	// };
+	const showDialouge = () => {
+		setAnimate(false);
+		setTimeout(() => {
+			setAnimate(true);
+			setLine('Get ready to groove and let the melodies uplift your spirits!');
+			if (line.startsWith('Get')) {
+				setListLine(true);
+				setAnimate(false);
+				setTimeout(() => {
+					setAnimate(true);
+					setLine("Arf-arf, let's make the music play!");
+				}, 0);
+			}
+		}, 0);
+	};
+	// useEffect(() => {
+	// 	setAnimate(true);
+	// }, [line]);
+
 	return (
 		<Wrapper>
 			<Container>
 				<Dialogue src="/images/dialogue.png" />
 				<NameTag>K.K.</NameTag>
-				<Text>
-					{line1.split('').map((char, index) => (
-						<motion.span
-							key={index}
-							variants={letterVariants}
-							initial="hidden"
-							animate="visible"
-							transition={{delay: index * 0.1}}>
-							{char}
-						</motion.span>
-					))}
+				<Text lastLine={lastLine}>
+					{line.split('').map(
+						(char, index) =>
+							animate && (
+								<motion.span
+									key={index}
+									variants={letterVariants}
+									initial="hidden"
+									animate="visible"
+									transition={{delay: index * 0.1}}>
+									{char}
+								</motion.span>
+							)
+					)}
 				</Text>
-				<NextBtn>
+				<NextBtn onClick={showDialouge}>
 					<i className="fa-solid fa-caret-right"></i>
 				</NextBtn>
 			</Container>
