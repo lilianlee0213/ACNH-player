@@ -19,7 +19,7 @@ const Container = styled.div`
 	padding: 20px 20px 15px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
-	background-image: url('/images/wave-haikei.png');
+	background-image: url('/images/background.jpeg');
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -35,6 +35,7 @@ const PlayerContainer = styled.div`
 
 const MenuButton = styled.div`
 	align-self: flex-start;
+	margin-bottom: 10px;
 `;
 
 const Album = styled.div`
@@ -44,10 +45,10 @@ const Album = styled.div`
 `;
 
 const AlbumTitle = styled.h1`
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	font-size: 24px;
 	font-weight: 500;
-	color: ${(props) => props.theme.darkBlue};
+	color: ${(props) => props.theme.black};
 `;
 
 const AlbumImg = styled.img`
@@ -56,18 +57,14 @@ const AlbumImg = styled.img`
 	max-width: 230px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
+	margin-bottom: 40px;
 `;
 
 const Button = styled.button`
 	font-size: 25px;
 	i {
-		color: ${(props) => props.theme.darkBlue};
-		opacity: 0.8;
-	}
-	&:hover {
-		i {
-			opacity: 1;
-		}
+		color: ${(props) => props.theme.green};
+		opacity: 1;
 	}
 `;
 

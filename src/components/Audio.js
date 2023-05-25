@@ -12,21 +12,21 @@ const AudioMeta = styled.div`
 	padding-left: 2px;
 	span {
 		font-size: 14px;
-		color: #222;
+		color: ${(props) => props.theme.gray};
 	}
 `;
 const ProgressBar = styled.input`
 	appearance: none;
+	margin-bottom: 5px;
 	width: 100%;
 	height: 5px;
 	background: linear-gradient(
 		to right,
-		#f7d359 0%,
-		#f7d359 ${(props) => (props.value / props.max) * 100}%,
+		#f7c442 0%,
+		#f7c442 ${(props) => (props.value / props.max) * 100}%,
 		#f8eebc ${(props) => (props.value / props.max) * 100}%,
 		#f8eebc 100%
 	);
-
 	outline: none;
 
 	&::-webkit-slider-thumb {
@@ -34,7 +34,7 @@ const ProgressBar = styled.input`
 		width: 16px;
 		height: 16px;
 		border-radius: 50%;
-		background-color: ${(props) => props.theme.darkGreen};
+		background-color: #f29541;
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 	}
@@ -43,7 +43,7 @@ const ProgressBar = styled.input`
 		height: 16px;
 		border: none;
 		border-radius: 50%;
-		background-color: ${(props) => props.theme.darkGreen};
+		background-color: #f29541;
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 	}

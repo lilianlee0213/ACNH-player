@@ -1,12 +1,13 @@
 import {createGlobalStyle} from 'styled-components';
 
 export const defaultTheme = {
-	bgColor1: '#F8F3E7',
-	blue: '#BCDFF8',
-	darkBlue: '#5588B8',
-	green: '#a4d4a2',
-	darkGreen: '#68b894',
-	yellow: '#f7d359',
+	beige: '#f8eebc',
+	orange: '#F29541',
+	black: '#272C30',
+	gray: '#444',
+	green: '#58AF9F',
+	pink: '#ef758a',
+	yellow: '#F7C442',
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -64,7 +65,7 @@ body{
   background: url(/images/background-large.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Boogaloo', cursive;
 }
 @media only screen and (max-width:720px) {
   body{
