@@ -89,10 +89,12 @@ export default function Player() {
 	}, [isPlaying]);
 	useEffect(() => {
 		if (audioRef.current) {
-			audioRef.current.play();
-			setIsPlaying(true);
+			audioRef.current.load();
+			audioRef.current.play().catch((error) => {
+				console.error('Failed to play audio:', error);
+			});
 		}
-	}, [currentSongIndex]);
+	}, [currentSongIndex, audioRef]);
 
 	useEffect(() => {
 		setProgress(time);
