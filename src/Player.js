@@ -72,25 +72,27 @@ export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
-	const [time, setTime] = useState(0);
+	const [startTime, setStartTime] = useState(0);
 	const [progress, setProgress] = useState(0);
-	const [duration, setDuration] = useState(0);
+	const [endTime, setEndTime] = useState(0);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
+	const audioElement = audioRef.current;
+
 	useEffect(() => {
-		if (audioRef.current) {
+		if (audioElement) {
 			if (isPlaying) {
-				audioRef.current.play();
+				audioElement.play();
 			} else {
-				audioRef.current.pause();
+				audioElement.pause();
 			}
 		}
 	}, [isPlaying, currentSongIndex]);
 
 	useEffect(() => {
-		setProgress(time);
-	}, [time]);
+		setProgress(startTime);
+	}, [startTime]);
 
 	const formattedTime = (sec) => {
 		const minute = Math.floor(sec / 60);
@@ -101,21 +103,21 @@ export default function Player() {
 	const handleProgressBar = (event) => {
 		const inputValue = event.target.value;
 		setProgress(inputValue);
-		if (audioRef.current) {
-			audioRef.current.currentTime = inputValue;
-			setTime(inputValue);
+		if (audioElement) {
+			audioElement.currentTime = inputValue;
+			setStartTime(inputValue);
 		}
 	};
 	const handleTimeUpdate = () => {
-		if (audioRef.current) {
-			const seconds = Math.floor(audioRef.current.currentTime);
-			setTime(seconds);
+		if (audioElement) {
+			const seconds = Math.floor(audioElement.currentTime);
+			setStartTime(seconds);
 		}
 	};
 	const handleDuration = () => {
-		if (audioRef.current) {
-			const seconds = Math.floor(audioRef.current.duration);
-			setDuration(seconds);
+		if (audioElement) {
+			const seconds = Math.floor(audioElement.duration);
+			setEndTime(seconds);
 		}
 	};
 	const handleAudioEnded = () => {
@@ -123,41 +125,41 @@ export default function Player() {
 	};
 
 	const handleNextSong = () => {
-		if (audioRef.current) {
-			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
-				audioRef.current.isLoading = true; // Set the flag to indicate a new song is being loaded
+		if (audioElement) {
+			if (audioElement.readyState === 4 && !audioElement.isLoading) {
+				audioElement.isLoading = true;
 				previousSongIndex.current = currentSongIndex;
 				setCurrentSongIndex((prevIndex) =>
 					prevIndex === data?.length - 1 ? 0 : prevIndex + 1
 				);
-				handleSongChangeTime();
+				changeSongTime();
 			}
 		}
 	};
 
 	const handlePrevSong = () => {
-		if (audioRef.current) {
-			if (audioRef.current.readyState === 4 && !audioRef.current.isLoading) {
-				audioRef.current.isLoading = true;
+		if (audioElement) {
+			if (audioElement.readyState === 4 && !audioElement.isLoading) {
+				audioElement.isLoading = true;
 				setCurrentSongIndex((prevIndex) =>
 					prevIndex === 0 ? data?.length - 1 : prevIndex - 1
 				);
-				handleSongChangeTime();
+				changeSongTime();
 			}
 		}
 	};
-	const handleSongChangeTime = () => {
+	const changeSongTime = () => {
 		setIsPlaying(false);
 		setTimeout(() => {
 			setIsPlaying(true);
-			audioRef.current.isLoading = false;
+			audioElement.isLoading = false;
 		}, 300);
 	};
 
 	const handlePlay = () => {
 		setIsPlaying((prev) => !prev);
-		if (audioRef.current) {
-			isPlaying ? audioRef.current.play() : audioRef.current.pause();
+		if (audioElement) {
+			isPlaying ? audioElement.play() : audioElement.pause();
 		}
 	};
 
@@ -186,10 +188,10 @@ export default function Player() {
 						button={Button}
 					/>
 					<Audio
-						time={formattedTime(parseInt(time))}
-						duration={formattedTime(parseInt(duration))}
+						time={formattedTime(parseInt(startTime))}
+						duration={formattedTime(parseInt(endTime))}
 						value={progress}
-						finish={duration}
+						finish={endTime}
 						handleProgressBar={handleProgressBar}
 						song={song.music_uri}
 						songRef={audioRef}
