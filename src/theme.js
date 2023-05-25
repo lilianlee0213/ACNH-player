@@ -4,6 +4,9 @@ export const defaultTheme = {
 	bgColor1: '#F8F3E7',
 	blue: '#BCDFF8',
 	darkBlue: '#5588B8',
+	green: '#a4d4a2',
+	darkGreen: '#68b894',
+	yellow: '#f7d359',
 };
 
 export const GlobalStyles = createGlobalStyle`
