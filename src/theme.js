@@ -8,6 +8,7 @@ export const defaultTheme = {
 	green: '#58AF9F',
 	pink: '#ef758a',
 	yellow: '#F7C442',
+	brown: '#836E50',
 };
 
 export const GlobalStyles = createGlobalStyle`

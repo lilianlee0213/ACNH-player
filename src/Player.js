@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-	position: relative;
+	height: 508px;
 	padding: 20px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
