@@ -5,19 +5,9 @@ const AudioFile = styled.div`
 	width: 100%;
 `;
 
-const AudioMeta = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 2px;
-	span {
-		font-size: 14px;
-		color: ${(props) => props.theme.gray};
-	}
-`;
 const ProgressBar = styled.input`
 	appearance: none;
-	margin-bottom: 5px;
+	margin-bottom: 8px;
 	width: 100%;
 	height: 5px;
 	background: linear-gradient(
@@ -53,6 +43,16 @@ const ProgressBar = styled.input`
 
 	&::-moz-range-thumb:hover {
 		transform: scale(1.4);
+	}
+`;
+const AudioMeta = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 2px;
+	span {
+		font-size: 14px;
+		color: ${(props) => props.theme.gray};
 	}
 `;
 export default function Audio(props) {

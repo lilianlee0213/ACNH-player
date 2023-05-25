@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
 	position: relative;
-	padding: 20px 20px 15px;
+	padding: 20px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background-image: url('/images/background.jpeg');
@@ -39,7 +39,7 @@ const MenuButton = styled.div`
 `;
 
 const Album = styled.div`
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	padding: 0 10px;
 	text-align: center;
 `;
