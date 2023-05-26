@@ -10,6 +10,7 @@ export const defaultTheme = {
 	yellow: '#F7C442',
 	brown: '#836E50',
 	blue: '#77BCD9',
+	darkBlue: '#54A3BD',
 };
 
 export const GlobalStyles = createGlobalStyle`
