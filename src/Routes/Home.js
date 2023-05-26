@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import {motion} from 'framer-motion';
+import {animate, motion} from 'framer-motion';
 import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -45,27 +46,38 @@ const Text = styled(motion.h2)`
 	top: 30%;
 	left: 10%;
 	width: 240px;
+	line-height: 1.2;
 	font-family: 'Mukta', sans-serif;
 	font-weight: 600;
-	line-height: 1.2;
+	font-size: ${(props) => (props.lastLine ? '22px' : '17px')};
+	text-align: ${(props) => (props.lastLine ? 'center' : 'left')};
 	color: ${(props) => (props.lastLine ? props.theme.blue : props.theme.brown)};
-	font-size: ${(props) => (props.lastLine ? '20px' : '16px')};
 `;
 
-const NextBtn = styled.button`
+const NextBtn = styled(motion.button)`
 	position: absolute;
-	top: 37%;
-	right: 10%;
-	width: 30px;
-	height: 30px;
-	color: #ffb900;
-	font-size: 20px;
+	top: 40.5%;
+	right: 0;
+	left: 0;
+	margin: 0 auto;
+	font-size: 35px;
+	color: ${(props) => props.theme.yellow};
 	cursor: pointer;
-	z-index: 10;
 `;
 const letterVariants = {
 	hidden: {visibility: 'hidden'},
 	visible: {visibility: 'visible'},
+};
+const buttonVariants = {
+	initial: {scale: 1},
+	animate: {
+		scale: [1, 1.2, 1],
+		transition: {
+			duration: 1,
+			repeat: Infinity,
+			repeatType: 'reverse',
+		},
+	},
 };
 
 export default function Home() {
@@ -74,19 +86,7 @@ export default function Home() {
 	);
 	const [animate, setAnimate] = useState(true);
 	const [lastLine, setListLine] = useState(false);
-	// const showDialouge = () => {
-	// 	setAnimate(false);
-	// 	setTimeout(() => setAnimate(true), 0);
-	// 	setLine('Get ready to groove and let the melodies uplift your spirits!');
-	// 	if (line.startsWith('Get')) {
-	// 		setListLine(true);
-	// 	}
-	// 	if (start) {
-	// 		setAnimate(false);
-	// 		setTimeout(() => setAnimate(true), 0);
-	// 		setLine("Arf-arf, let's make the music play!");
-	// 	}
-	// };
+
 	const showDialouge = () => {
 		setAnimate(false);
 		setTimeout(() => {
@@ -102,9 +102,6 @@ export default function Home() {
 			}
 		}, 0);
 	};
-	// useEffect(() => {
-	// 	setAnimate(true);
-	// }, [line]);
 
 	return (
 		<Wrapper>
@@ -126,8 +123,18 @@ export default function Home() {
 							)
 					)}
 				</Text>
-				<NextBtn onClick={showDialouge}>
-					<i className="fa-solid fa-caret-right"></i>
+				<NextBtn
+					variants={buttonVariants}
+					initial="initial"
+					animate="animate"
+					onClick={showDialouge}>
+					{lastLine ? (
+						<Link to="/play">
+							<i class="fa-solid fa-sort-down"></i>
+						</Link>
+					) : (
+						<i class="fa-solid fa-sort-down"></i>
+					)}
 				</NextBtn>
 			</Container>
 		</Wrapper>
