@@ -82,12 +82,18 @@ const buttonVariants = {
 };
 
 export default function Home() {
+	const [loading, setLoading] = useState(true);
 	const [line, setLine] = useState(
 		"Welcome to ACNH Music Player! I'm K.K. Slider, the howlin' hound with a guitar in paw."
 	);
 	const [animate, setAnimate] = useState(true);
 	const [lastLine, setListLine] = useState(false);
 
+	useEffect(() => {
+		setTimeout(() => {
+			setLoading(true);
+		}, 6000);
+	}, []);
 	const showDialouge = () => {
 		setAnimate(false);
 		setTimeout(() => {
@@ -107,36 +113,42 @@ export default function Home() {
 	return (
 		<Wrapper>
 			<Container>
-				<Dialogue src="/images/dialogue.png" />
-				<NameTag>K.K.</NameTag>
-				<Text lastLine={lastLine}>
-					{line.split('').map(
-						(char, index) =>
-							animate && (
-								<motion.span
-									key={index}
-									variants={letterVariants}
-									initial="hidden"
-									animate="visible"
-									transition={{delay: index * 0.1}}>
-									{char}
-								</motion.span>
-							)
-					)}
-				</Text>
-				<NextBtn
-					variants={buttonVariants}
-					initial="initial"
-					animate="animate"
-					onClick={showDialouge}>
-					{lastLine ? (
-						<Link to="/play">
-							<i class="fa-solid fa-sort-down"></i>
-						</Link>
-					) : (
-						<i class="fa-solid fa-sort-down"></i>
-					)}
-				</NextBtn>
+				{loading ? (
+					<div>Loading</div>
+				) : (
+					<>
+						<Dialogue src="/images/dialogue.png" />
+						<NameTag>K.K.</NameTag>
+						<Text lastLine={lastLine}>
+							{line.split('').map(
+								(char, index) =>
+									animate && (
+										<motion.span
+											key={index}
+											variants={letterVariants}
+											initial="hidden"
+											animate="visible"
+											transition={{delay: index * 0.1}}>
+											{char}
+										</motion.span>
+									)
+							)}
+						</Text>
+						<NextBtn
+							variants={buttonVariants}
+							initial="initial"
+							animate="animate"
+							onClick={showDialouge}>
+							{lastLine ? (
+								<Link to="/play">
+									<i class="fa-solid fa-sort-down"></i>
+								</Link>
+							) : (
+								<i class="fa-solid fa-sort-down"></i>
+							)}
+						</NextBtn>
+					</>
+				)}
 			</Container>
 		</Wrapper>
 	);
