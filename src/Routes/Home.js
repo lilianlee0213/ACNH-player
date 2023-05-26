@@ -60,6 +60,7 @@ const NextBtn = styled(motion.button)`
 	right: 0;
 	left: 0;
 	margin: 0 auto;
+	width: fit-content;
 	font-size: 35px;
 	color: ${(props) => props.theme.yellow};
 	cursor: pointer;
