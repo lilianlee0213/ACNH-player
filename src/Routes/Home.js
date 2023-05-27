@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {motion, transform, useAnimationControls} from 'framer-motion';
+import {delay, motion, transform, useAnimationControls} from 'framer-motion';
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -76,7 +76,7 @@ const LogoText = styled.h1`
 		left: -20px;
 	}
 `;
-const LoadingIcon = styled.div`
+const LoadingIcon = styled(motion.div)`
 	position: absolute;
 	bottom: 12%;
 	left: 0;
@@ -181,7 +181,7 @@ export default function Home() {
 	const [lastLine, setListLine] = useState(false);
 	useEffect(() => {
 		setTimeout(() => {
-			setLoading(true);
+			setLoading(false);
 		}, 6000);
 	}, []);
 	const showDialouge = () => {
@@ -216,11 +216,11 @@ export default function Home() {
 							</LogoText>
 							<LogoText className="logo-music">MUSIC</LogoText>
 						</Logo>
-						<LoadingIcon>
+						<LoadingIcon animate={{opacity: [0, 1], transition: {delay: 1.8}}}>
 							<motion.i
 								className="fa-solid fa-spinner"
 								animate={{rotate: [0, 360 * 3]}}
-								transition={{duration: 6}}></motion.i>
+								transition={{duration: 6, delay: 1.8}}></motion.i>
 						</LoadingIcon>
 					</>
 				) : (
