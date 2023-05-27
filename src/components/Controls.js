@@ -1,3 +1,4 @@
+import {motion} from 'framer-motion';
 import styled from 'styled-components';
 
 const ControlButton = styled.div`
@@ -8,7 +9,7 @@ const ControlButton = styled.div`
 	margin-bottom: 7px;
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button)`
 	font-size: 22px;
 	color: ${(props) => props.theme.beige};
 	transition: all 0.2s ease-in-out;
@@ -25,27 +26,28 @@ const Button = styled.button`
 			font-size: 28px;
 		}
 	}
-	&:hover {
-		opacity: 1;
-	}
-	&.play-btn:hover {
-		transform: scale(1.1);
-	}
 `;
 export default function Controls(props) {
 	return (
 		<ControlButton>
-			<Button onClick={props.handlePrevSong}>
+			<Button
+				onClick={props.handlePrevSong}
+				whileHover={{scale: 1.2, opacity: 1}}>
 				<i className="fa-solid fa-angles-left"></i>
 			</Button>
-			<Button onClick={props.handlePlay} className="play-btn">
+			<Button
+				onClick={props.handlePlay}
+				className="play-btn"
+				whileHover={{scale: 1.1, opacity: 1}}>
 				{props.isPlaying ? (
 					<i className="fa-solid fa-pause"></i>
 				) : (
 					<i className="fa-solid fa-play"></i>
 				)}
 			</Button>
-			<Button onClick={props.handleNextSong}>
+			<Button
+				onClick={props.handleNextSong}
+				whileHover={{scale: 1.2, opacity: 1}}>
 				<i className="fa-solid fa-angles-right"></i>
 			</Button>
 		</ControlButton>
