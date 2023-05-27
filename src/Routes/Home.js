@@ -76,25 +76,17 @@ const LogoText = styled.h1`
 		left: -20px;
 	}
 `;
-const LoadingText = styled.div`
+const LoadingIcon = styled.div`
 	position: absolute;
-	bottom: 10%;
+	bottom: 12%;
 	left: 0;
 	right: 0;
 	margin: 0 auto;
 	text-align: center;
-
 	.fa-spinner {
-		font-size: 40px;
+		font-size: 50px;
 		color: ${(props) => props.theme.yellow};
 		/* color: #5bc0f8; */
-	}
-	.text {
-		margin-top: 20px;
-		font-size: 25px;
-		text-transform: uppercase;
-		letter-spacing: 2px;
-		color: ${(props) => props.theme.black};
 	}
 `;
 const Dialogue = styled.img`
@@ -163,12 +155,7 @@ const logoVariants = {
 		},
 	},
 };
-const loadingTextVariants = {
-	initial: {opacity: 0},
-	animate: {
-		opacity: [0, 1, 0],
-	},
-};
+
 const letterVariants = {
 	hidden: {visibility: 'hidden'},
 	visible: {visibility: 'visible'},
@@ -229,27 +216,12 @@ export default function Home() {
 							</LogoText>
 							<LogoText className="logo-music">MUSIC</LogoText>
 						</Logo>
-						<LoadingText>
-							<i className="fa-solid fa-spinner"></i>
-							<h6 className="text">
-								{'Loading...'.split('').map((char, index) => (
-									<motion.span
-										style={{display: 'inline-block'}}
-										key={index}
-										variants={loadingTextVariants}
-										initial="initial"
-										animate="animate"
-										transition={{
-											delay: index * 0.2,
-											duration: 3,
-											repeat: Infinity,
-											repeatType: 'reverse',
-										}}>
-										{char}
-									</motion.span>
-								))}
-							</h6>
-						</LoadingText>
+						<LoadingIcon>
+							<motion.i
+								className="fa-solid fa-spinner"
+								animate={{rotate: [0, 360 * 3]}}
+								transition={{duration: 6}}></motion.i>
+						</LoadingIcon>
 					</>
 				) : (
 					<>
