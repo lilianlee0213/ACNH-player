@@ -1,5 +1,6 @@
 import {useQuery} from 'react-query';
 import {useEffect, useRef, useState} from 'react';
+import {motion} from 'framer-motion';
 import styled from 'styled-components';
 import {getSongs} from './Api';
 import Audio from './components/Audio';
@@ -14,12 +15,26 @@ const Wrapper = styled.div`
 	margin: 0 20px;
 `;
 
+const Loading = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.fa-spinner {
+		font-size: 50px;
+		color: ${(props) => props.theme.yellow};
+	}
+`;
 const Container = styled.div`
+	width: 290px;
 	height: 508px;
 	padding: 20px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
-	background-image: url('/images/background.jpeg');
+	background: ${(props) =>
+		props.isLoading ? props.theme.green : 'url("/images/background.jpeg")'};
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -168,37 +183,46 @@ export default function Player() {
 
 	return (
 		<Wrapper>
-			<Container>
-				<PlayerContainer>
-					<MenuButton>
-						<Button>
-							<i className="fa-solid fa-bars"></i>
-						</Button>
-					</MenuButton>
-					<Album>
-						<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
-						<AlbumImg src={song.image_uri} alt="Album Cover" />
-					</Album>
-					<Controls
-						handlePrevSong={handlePrevSong}
-						handlePlay={handlePlay}
-						handleNextSong={handleNextSong}
-						isPlaying={isPlaying}
-						button={Button}
-					/>
-					<Audio
-						time={formattedTime(parseInt(startTime))}
-						duration={formattedTime(parseInt(endTime))}
-						value={progress}
-						finish={endTime}
-						handleProgressBar={handleProgressBar}
-						song={song.music_uri}
-						songRef={audioRef}
-						handleAudioEnded={handleAudioEnded}
-						handleTimeUpdate={handleTimeUpdate}
-						handleDuration={handleDuration}
-					/>
-				</PlayerContainer>
+			<Container isLoading={isLoading}>
+				{isLoading ? (
+					<Loading>
+						<motion.i
+							className="fa-solid fa-spinner"
+							animate={{rotate: [0, 360 * 3]}}
+							transition={{duration: 6, repeat: Infinity}}></motion.i>
+					</Loading>
+				) : (
+					<PlayerContainer>
+						<MenuButton>
+							<Button>
+								<i className="fa-solid fa-bars"></i>
+							</Button>
+						</MenuButton>
+						<Album>
+							<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
+							<AlbumImg src={song.image_uri} alt="Album Cover" />
+						</Album>
+						<Controls
+							handlePrevSong={handlePrevSong}
+							handlePlay={handlePlay}
+							handleNextSong={handleNextSong}
+							isPlaying={isPlaying}
+							button={Button}
+						/>
+						<Audio
+							time={formattedTime(parseInt(startTime))}
+							duration={formattedTime(parseInt(endTime))}
+							value={progress}
+							finish={endTime}
+							handleProgressBar={handleProgressBar}
+							song={song.music_uri}
+							songRef={audioRef}
+							handleAudioEnded={handleAudioEnded}
+							handleTimeUpdate={handleTimeUpdate}
+							handleDuration={handleDuration}
+						/>
+					</PlayerContainer>
+				)}
 			</Container>
 		</Wrapper>
 	);
