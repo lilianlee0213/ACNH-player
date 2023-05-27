@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {motion, useAnimationControls} from 'framer-motion';
+import {motion, transform, useAnimationControls} from 'framer-motion';
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -21,10 +21,10 @@ const Container = styled.div`
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background-image: ${(prop) =>
 		`url(${
-			prop.loading ? '/images/loading-image.png' : '/images/home-background.png'
+			prop.loading ? '/images/wave-haikei.png' : '/images/home-background.png'
 		})`};
 	background-size: cover;
-	background-position: center;
+	background-position: ${(props) => (props.loading ? ' bottom' : 'center')};
 	background-repeat: no-repeat;
 `;
 const Logo = styled(motion.div)`
@@ -76,6 +76,27 @@ const LogoText = styled.h1`
 		left: -20px;
 	}
 `;
+const LoadingText = styled.div`
+	position: absolute;
+	bottom: 10%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+
+	.fa-spinner {
+		font-size: 40px;
+		color: ${(props) => props.theme.yellow};
+		/* color: #5bc0f8; */
+	}
+	.text {
+		margin-top: 20px;
+		font-size: 25px;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		color: ${(props) => props.theme.black};
+	}
+`;
 const Dialogue = styled.img`
 	position: absolute;
 	left: 5px;
@@ -116,21 +137,6 @@ const NextBtn = styled(motion.button)`
 	color: ${(props) => props.theme.yellow};
 	cursor: pointer;
 `;
-const letterVariants = {
-	hidden: {visibility: 'hidden'},
-	visible: {visibility: 'visible'},
-};
-const buttonVariants = {
-	initial: {scale: 1},
-	animate: {
-		scale: [1, 1.2, 1],
-		transition: {
-			duration: 1,
-			repeat: Infinity,
-			repeatType: 'reverse',
-		},
-	},
-};
 const logoVariants = {
 	initial: {
 		opacity: 0,
@@ -154,6 +160,27 @@ const logoVariants = {
 				ease: 'linear',
 				delay: 0.8,
 			},
+		},
+	},
+};
+const loadingTextVariants = {
+	initial: {opacity: 0},
+	animate: {
+		opacity: [0, 1, 0],
+	},
+};
+const letterVariants = {
+	hidden: {visibility: 'hidden'},
+	visible: {visibility: 'visible'},
+};
+const buttonVariants = {
+	initial: {scale: 1},
+	animate: {
+		scale: [1, 1.2, 1],
+		transition: {
+			duration: 1,
+			repeat: Infinity,
+			repeatType: 'reverse',
 		},
 	},
 };
@@ -202,6 +229,27 @@ export default function Home() {
 							</LogoText>
 							<LogoText className="logo-music">MUSIC</LogoText>
 						</Logo>
+						<LoadingText>
+							<i className="fa-solid fa-spinner"></i>
+							<h6 className="text">
+								{'Loading...'.split('').map((char, index) => (
+									<motion.span
+										style={{display: 'inline-block'}}
+										key={index}
+										variants={loadingTextVariants}
+										initial="initial"
+										animate="animate"
+										transition={{
+											delay: index * 0.2,
+											duration: 3,
+											repeat: Infinity,
+											repeatType: 'reverse',
+										}}>
+										{char}
+									</motion.span>
+								))}
+							</h6>
+						</LoadingText>
 					</>
 				) : (
 					<>
