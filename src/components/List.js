@@ -26,7 +26,14 @@ export default function List(props) {
 			showList={props.showList}
 			variants={containerVariants}
 			animate={props.showList ? 'show' : 'hide'}>
-			Show List
+			<div>
+				{props.songList.map((list) => (
+					<div key={list.id}>
+						<h1>{list.name['name-USen']}</h1>
+						<img src={list.image_uri} alt="" />
+					</div>
+				))}
+			</div>
 		</Container>
 	);
 }

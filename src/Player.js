@@ -125,7 +125,7 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
-
+	const songList = data?.slice(currentSongIndex, currentSongIndex + 5);
 	useEffect(() => {
 		if (audioRef.current) {
 			if (isPlaying) {
@@ -209,7 +209,6 @@ export default function Player() {
 	};
 	const ToggleShowList = () => {
 		setShowList((prev) => !prev);
-		console.log(showList);
 	};
 	return (
 		<Wrapper>
@@ -278,7 +277,7 @@ export default function Player() {
 								<i className="fa-solid fa-chevron-up show-icon"></i>
 							)}{' '}
 						</Button>
-						<List showList={showList}></List>
+						<List showList={showList} songList={songList} />
 					</PlayerContainer>
 				)}
 			</Container>
