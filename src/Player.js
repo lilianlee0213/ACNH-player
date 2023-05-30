@@ -103,11 +103,15 @@ const Button = styled(motion.button)`
 	margin: 0 auto;
 	width: fit-content;
 	font-size: 25px;
+	&.show-btn {
+		z-index: ${(props) => (props.showList ? 1000 : 0)};
+	}
 	.fa-bars {
 		color: ${(props) => props.theme.green};
 	}
-	.fa-chevron-up {
-		color: ${(props) => props.theme.yellow};
+	.show-icon {
+		color: ${(props) =>
+			props.showList ? props.theme.beige : props.theme.yellow};
 	}
 `;
 export default function Player() {
@@ -117,6 +121,7 @@ export default function Player() {
 	const [startTime, setStartTime] = useState(0);
 	const [progress, setProgress] = useState(0);
 	const [endTime, setEndTime] = useState(0);
+	const [showList, setShowList] = useState(false);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
@@ -134,7 +139,6 @@ export default function Player() {
 	useEffect(() => {
 		setProgress(startTime);
 	}, [startTime]);
-
 	const formattedTime = (sec) => {
 		const minute = Math.floor(sec / 60);
 		const second = sec % 60;
@@ -203,6 +207,10 @@ export default function Player() {
 			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
+	const ToggleShowList = () => {
+		setShowList((prev) => !prev);
+		console.log(showList);
+	};
 	return (
 		<Wrapper>
 			<Container isLoading={isLoading}>
@@ -259,10 +267,18 @@ export default function Player() {
 							handleTimeUpdate={handleTimeUpdate}
 							handleDuration={handleDuration}
 						/>
-						<Button whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
-							<i className="fa-solid fa-chevron-up"></i>
+						<Button
+							className="show-btn"
+							showList={showList}
+							onClick={ToggleShowList}
+							whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
+							{showList ? (
+								<i className="fa-solid fa-chevron-down show-icon"></i>
+							) : (
+								<i className="fa-solid fa-chevron-up show-icon"></i>
+							)}{' '}
 						</Button>
-						<List></List>
+						<List showList={showList}></List>
 					</PlayerContainer>
 				)}
 			</Container>
