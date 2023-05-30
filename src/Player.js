@@ -36,14 +36,13 @@ const Container = styled.div`
 	background: ${(props) =>
 		props.isLoading ? props.theme.green : 'url("/images/background.jpeg")'};
 	background-size: cover;
-	background-position: center center;
+	background-position: bottom;
 	background-repeat: no-repeat;
 `;
 
 const PlayerContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	height: 100%;
 	max-width: 400px;
 `;
@@ -54,27 +53,51 @@ const MenuButton = styled.div`
 `;
 
 const Album = styled.div`
-	margin-bottom: 20px;
-	padding: 0 10px;
-	text-align: center;
+	/* margin-bottom: 20px; */
+	height: 300px;
+	/* padding: 0 10px; */
 `;
 
 const AlbumTitle = styled.h1`
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	font-size: 24px;
 	font-weight: 500;
 	color: ${(props) => props.theme.black};
+	text-align: center;
 `;
-
-const AlbumImg = styled.img`
-	object-fit: cover;
-	width: 100%;
+const AlbumCover = styled.div`
+	position: relative;
 	max-width: 230px;
-	border-radius: 15px;
-	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
 	margin-bottom: 40px;
 `;
-
+const AlbumImg = styled.img`
+	position: absolute;
+	left: -5px;
+	object-fit: cover;
+	width: 190px;
+	border-radius: 15px;
+	box-shadow: 0px 15px 35px -5px rgba(0, 0, 0, 0.35);
+	z-index: 1;
+`;
+const Vinyl = styled(motion.div)`
+	position: absolute;
+	right: -35px;
+	img {
+		object-fit: cover;
+	}
+	.vinyl-image {
+		position: relative;
+		width: 190px;
+	}
+	.album-image {
+		position: absolute;
+		width: 65px;
+		height: 65px;
+		border-radius: 50%;
+		right: 63px;
+		top: 63px;
+	}
+`;
 const Button = styled.button`
 	font-size: 25px;
 	i {
@@ -82,7 +105,6 @@ const Button = styled.button`
 		opacity: 1;
 	}
 `;
-
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -176,11 +198,7 @@ export default function Player() {
 			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
-
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
+	console.log(endTime);
 	return (
 		<Wrapper>
 			<Container isLoading={isLoading}>
@@ -188,8 +206,12 @@ export default function Player() {
 					<Loading>
 						<motion.i
 							className="fa-solid fa-spinner"
-							animate={{rotate: [0, 360 * 3]}}
-							transition={{duration: 6, repeat: Infinity}}></motion.i>
+							animate={{rotate: 360}}
+							transition={{
+								ease: 'linear',
+								duration: 2,
+								repeat: Infinity,
+							}}></motion.i>
 					</Loading>
 				) : (
 					<PlayerContainer>
@@ -200,7 +222,19 @@ export default function Player() {
 						</MenuButton>
 						<Album>
 							<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
-							<AlbumImg src={song.image_uri} alt="Album Cover" />
+							<AlbumCover>
+								<AlbumImg src={song.image_uri} alt="Album Cover" />
+								<Vinyl
+									animate={isPlaying ? {rotate: 360} : {rotate: 0}}
+									transition={
+										isPlaying
+											? {ease: 'linear', duration: 2, repeat: Infinity}
+											: {}
+									}>
+									<img src="/images/vinyl.png" className="vinyl-image" />
+									<img src={song.image_uri} className="album-image" />
+								</Vinyl>
+							</AlbumCover>
 						</Album>
 						<Controls
 							handlePrevSong={handlePrevSong}

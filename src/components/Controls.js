@@ -6,7 +6,7 @@ const ControlButton = styled.div`
 	justify-content: space-evenly;
 	width: 80%;
 	gap: 20px;
-	margin-bottom: 7px;
+	margin: 0 auto;
 `;
 
 const Button = styled(motion.button)`

@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
 const AudioFile = styled.div`
-	grid-area: c;
 	width: 100%;
 `;
 
 const ProgressBar = styled.input`
 	appearance: none;
-	margin-bottom: 8px;
+	margin-top: 34px;
 	width: 100%;
 	height: 5px;
 	background: linear-gradient(
