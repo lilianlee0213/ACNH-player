@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {getSongs} from './Api';
 import Audio from './components/Audio';
 import Controls from './components/Controls';
-
+import List from './components/List';
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -28,6 +28,7 @@ const Loading = styled.div`
 	}
 `;
 const Container = styled.div`
+	position: relative;
 	width: 290px;
 	height: 508px;
 	padding: 20px 20px 10px;
@@ -202,7 +203,6 @@ export default function Player() {
 			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
-	console.log(endTime);
 	return (
 		<Wrapper>
 			<Container isLoading={isLoading}>
@@ -262,6 +262,7 @@ export default function Player() {
 						<Button whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
 							<i className="fa-solid fa-chevron-up"></i>
 						</Button>
+						<List></List>
 					</PlayerContainer>
 				)}
 			</Container>
