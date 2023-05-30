@@ -30,7 +30,7 @@ const Loading = styled.div`
 const Container = styled.div`
 	width: 290px;
 	height: 508px;
-	padding: 20px;
+	padding: 20px 20px 10px;
 	border-radius: 15px;
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background: ${(props) =>
@@ -98,11 +98,15 @@ const Vinyl = styled(motion.div)`
 		top: 63px;
 	}
 `;
-const Button = styled.button`
+const Button = styled(motion.button)`
+	margin: 0 auto;
+	width: fit-content;
 	font-size: 25px;
-	i {
+	.fa-bars {
 		color: ${(props) => props.theme.green};
-		opacity: 1;
+	}
+	.fa-chevron-up {
+		color: ${(props) => props.theme.yellow};
 	}
 `;
 export default function Player() {
@@ -255,6 +259,9 @@ export default function Player() {
 							handleTimeUpdate={handleTimeUpdate}
 							handleDuration={handleDuration}
 						/>
+						<Button whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
+							<i className="fa-solid fa-chevron-up"></i>
+						</Button>
 					</PlayerContainer>
 				)}
 			</Container>
