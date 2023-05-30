@@ -46,7 +46,6 @@ const containerVariants = {
 export default function List(props) {
 	return (
 		<Container
-			showList={props.showList}
 			variants={containerVariants}
 			animate={props.showList ? 'show' : 'hide'}>
 			<ListContainer>

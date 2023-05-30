@@ -110,8 +110,10 @@ const Button = styled(motion.button)`
 		color: ${(props) => props.theme.green};
 	}
 	.show-icon {
-		color: ${(props) =>
-			props.showList ? props.theme.beige : props.theme.yellow};
+		color: ${(props) => props.theme.beige};
+	}
+	.close-icon {
+		color: ${(props) => props.theme.yellow};
 	}
 `;
 export default function Player() {
@@ -267,15 +269,15 @@ export default function Player() {
 							handleDuration={handleDuration}
 						/>
 						<Button
+							style={{zIndex: showList && '1000'}}
 							className="show-btn"
-							showList={showList}
 							onClick={ToggleShowList}
 							whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
 							{showList ? (
 								<i className="fa-solid fa-chevron-down show-icon"></i>
 							) : (
-								<i className="fa-solid fa-chevron-up show-icon"></i>
-							)}{' '}
+								<i className="fa-solid fa-chevron-up close-icon"></i>
+							)}
 						</Button>
 						<List showList={showList} songList={songList} />
 					</PlayerContainer>
