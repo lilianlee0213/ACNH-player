@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 	height: 100vh;
 	margin: 0 20px;
 `;
-
 const Loading = styled.div`
 	width: 100%;
 	height: 100%;
@@ -54,9 +53,7 @@ const MenuButton = styled.div`
 `;
 
 const Album = styled.div`
-	/* margin-bottom: 20px; */
 	height: 300px;
-	/* padding: 0 10px; */
 `;
 
 const AlbumTitle = styled.h1`
@@ -103,11 +100,11 @@ const Button = styled(motion.button)`
 	margin: 0 auto;
 	width: fit-content;
 	font-size: 25px;
-	&.show-btn {
-		z-index: ${(props) => (props.showList ? 1000 : 0)};
-	}
 	.fa-bars {
 		color: ${(props) => props.theme.green};
+	}
+	&.show-btn {
+		z-index: ${(props) => (props.showList ? 1000 : 0)};
 	}
 	.show-icon {
 		color: ${(props) => props.theme.beige};
