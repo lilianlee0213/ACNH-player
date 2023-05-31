@@ -7,10 +7,6 @@ const AudioFile = styled(motion.div)`
 `;
 
 const ProgressBar = styled.input`
-	appearance: none;
-	margin-top: 34px;
-	width: 100%;
-	height: 5px;
 	background: linear-gradient(
 		to right,
 		#f7c442 0%,
@@ -18,33 +14,6 @@ const ProgressBar = styled.input`
 		#f8eebc ${(props) => (props.value / props.max) * 100}%,
 		#f8eebc 100%
 	);
-	outline: none;
-
-	&::-webkit-slider-thumb {
-		appearance: none;
-		width: 16px;
-		height: 16px;
-		border-radius: 50%;
-		background-color: #f29541;
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
-	}
-	&::-moz-range-thumb {
-		width: 16px;
-		height: 16px;
-		border: none;
-		border-radius: 50%;
-		background-color: #f29541;
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
-	}
-	&::-webkit-slider-thumb:hover {
-		transform: scale(1.4);
-	}
-
-	&::-moz-range-thumb:hover {
-		transform: scale(1.4);
-	}
 `;
 const AudioMeta = styled.div`
 	display: flex;
@@ -68,6 +37,7 @@ export default function Audio(props) {
 				transition: {delay: 0.25},
 			}}>
 			<ProgressBar
+				className="progress-bar"
 				type="range"
 				step="1"
 				min="0"

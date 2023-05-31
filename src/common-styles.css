@@ -72,3 +72,35 @@
 	border-radius: 50%;
 	width: 100%;
 }
+.progress-bar {
+	appearance: none;
+	margin-top: 34px;
+	width: 100%;
+	height: 5px;
+	outline: none;
+}
+.progress-bar::-webkit-slider-thumb {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #f29541;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+.progress-bar::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border: none;
+	border-radius: 50%;
+	background-color: #f29541;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+}
+.progress-bar::-webkit-slider-thumb:hover {
+	transform: scale(1.4);
+}
+
+.progress-bar::-moz-range-thumb:hover {
+	transform: scale(1.4);
+}
