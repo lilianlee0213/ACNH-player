@@ -21,7 +21,6 @@ const Container = styled.div`
 `;
 const Section = styled.section`
 	display: flex;
-	/* gap: 15px; */
 	width: 100%;
 	padding-inline: 10px;
 	border-radius: 10px;
