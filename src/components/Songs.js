@@ -111,6 +111,7 @@ export default function Songs(props) {
 			}}
 			animate={{
 				height: props.showList ? '100%' : 0,
+				transition: {duration: 0.5},
 			}}>
 			<ListContainer>
 				{props.showList && props.selectedSection === 'top-songs' && (
