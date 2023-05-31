@@ -64,7 +64,7 @@ export default function Audio(props) {
 				zIndex: props.showList ? 1000 : 0,
 			}}
 			animate={{
-				opacity: props.showList && [0, 1],
+				opacity: props.showList ? [0, 1] : 1,
 				transition: {delay: 0.25},
 			}}>
 			<ProgressBar
@@ -84,8 +84,7 @@ export default function Audio(props) {
 				ref={props.songRef}
 				onEnded={props.handleAudioEnded}
 				onTimeUpdate={props.handleTimeUpdate}
-				onLoadedMetadata={props.handleDuration}
-				autoPlay></audio>
+				onLoadedMetadata={props.handleDuration}></audio>
 		</AudioFile>
 	);
 }

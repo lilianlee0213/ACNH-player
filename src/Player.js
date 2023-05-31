@@ -116,7 +116,7 @@ const Button = styled(motion.button)`
 `;
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
-	const [isPlaying, setIsPlaying] = useState(true);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentSongIndex, setCurrentSongIndex] = useState(0);
 	const [startTime, setStartTime] = useState(0);
 	const [progress, setProgress] = useState(0);
@@ -127,13 +127,17 @@ export default function Player() {
 	const song = data?.[currentSongIndex];
 	let songList;
 	const lastIndex = data?.length - 1;
-	if (currentSongIndex + 4 <= lastIndex) {
-		songList = data?.slice(currentSongIndex, currentSongIndex + 4);
-	} else {
-		const remaining = 4 - (lastIndex - currentSongIndex + 1);
-		songList = [...data?.slice(currentSongIndex), ...data?.slice(0, remaining)];
+	if (currentSongIndex <= lastIndex) {
+		if (currentSongIndex + 4 <= lastIndex) {
+			songList = data?.slice(currentSongIndex, currentSongIndex + 4);
+		} else {
+			const remaining = 4 - (lastIndex - currentSongIndex + 1);
+			songList = [
+				...data?.slice(currentSongIndex),
+				...data?.slice(0, remaining),
+			];
+		}
 	}
-
 	useEffect(() => {
 		if (audioRef.current) {
 			if (isPlaying) {
