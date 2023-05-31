@@ -70,7 +70,6 @@ const LoadingIcon = styled(motion.div)`
 	.fa-spinner {
 		font-size: 50px;
 		color: ${(props) => props.theme.yellow};
-		/* color: #5bc0f8; */
 	}
 `;
 const Dialogue = styled.img`
@@ -157,7 +156,7 @@ const buttonVariants = {
 };
 
 export default function Home() {
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(1);
 	const [line, setLine] = useState(
 		"Welcome to ACNH Music Player! I'm K.K. Slider, the howlin' hound with a guitar in paw."
 	);
@@ -165,7 +164,7 @@ export default function Home() {
 	const [lastLine, setListLine] = useState(false);
 	useEffect(() => {
 		setTimeout(() => {
-			setLoading(false);
+			setLoading(0);
 		}, 6000);
 	}, []);
 	const showDialouge = () => {
