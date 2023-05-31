@@ -18,6 +18,23 @@ const Album = styled.img`
 `;
 
 export default function Songs(props) {
+	const getFavoriteSong = (section) => {
+		return (
+			<div key={section[0].id} id={section[0].id}>
+				{section[0].name['name-USen']}
+				<Album src={section[0].image_uri} alt="" />
+			</div>
+		);
+	};
+	const songs = (section) => {
+		return section.slice(1).map((song) => (
+			<div key={song.id} id={song.id}>
+				{song.name['name-USen']}
+				<Album src={song.image_uri} alt="" />
+			</div>
+		));
+	};
+	console.log(getFavoriteSong(props.topSongs).id);
 	return (
 		<SongContainer
 			style={{
@@ -36,32 +53,20 @@ export default function Songs(props) {
 			<div>
 				{props.showList && props.selectedSection === 'top-songs' && (
 					<>
-						{props.topSongs.map((song) => (
-							<div key={song.id} id={song.id}>
-								{song.name['name-USen']}
-								<Album src={song.image_uri} alt="" />
-							</div>
-						))}
+						<div>{getFavoriteSong(props.topSongs)}</div>
+						<div>{songs(props.topSongs)}</div>
 					</>
 				)}
 				{props.showList && props.selectedSection === 'isabelle-picks' && (
 					<>
-						{props.isabellePicks.map((song) => (
-							<div key={song.id} id={song.id}>
-								{song.name['name-USen']}
-								<Album src={song.image_uri} alt="" />
-							</div>
-						))}
+						<div>{getFavoriteSong(props.isabellePicks)}</div>
+						<div>{songs(props.isabellePicks)}</div>
 					</>
 				)}
 				{props.showList && props.selectedSection === 'tom-picks' && (
 					<>
-						{props.tomPicks.map((song) => (
-							<div key={song.id} id={song.id}>
-								{song.name['name-USen']}
-								<Album src={song.image_uri} alt="" />
-							</div>
-						))}
+						<div>{getFavoriteSong(props.tomPicks)}</div>
+						<div>{songs(props.tomPicks)}</div>
 					</>
 				)}
 			</div>

@@ -1,5 +1,5 @@
 import {motion} from 'framer-motion';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import Songs from '../components/Songs';
 import {getSongs} from '../Api';
