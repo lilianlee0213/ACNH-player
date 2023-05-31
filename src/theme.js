@@ -2,15 +2,18 @@ import {createGlobalStyle} from 'styled-components';
 
 export const defaultTheme = {
 	beige: '#f8eebc',
-	orange: '#F29541',
-	black: '#272C30',
 	gray: '#444',
-	green: '#58AF9F',
-	pink: '#ef758a',
+	black: '#272C30',
+	orange: '#F29541',
+	lightYellow: '#FFF2BB',
 	yellow: '#F7C442',
-	brown: '#836E50',
+	lightGreen: '#CFF9DB',
+	green: '#58AF9F',
+	lightBlue: '#BCDFF8',
 	blue: '#77BCD9',
 	darkBlue: '#54A3BD',
+	pink: '#ef758a',
+	brown: '#836E50',
 };
 
 export const GlobalStyles = createGlobalStyle`
