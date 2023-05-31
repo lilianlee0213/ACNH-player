@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const AudioFile = styled(motion.div)`
 	width: 100%;
+	margin-bottom: 10px;
 `;
 
 const ProgressBar = styled.input`
@@ -59,7 +60,6 @@ export default function Audio(props) {
 	return (
 		<AudioFile
 			style={{
-				marginBottom: props.showList ? '20px' : 'inherit',
 				padding: props.showList ? '0 20px' : 'inherit',
 				zIndex: props.showList ? 1000 : 0,
 			}}

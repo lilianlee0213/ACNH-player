@@ -53,12 +53,13 @@ const CurrentAlbum = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin: 0 auto;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	padding: 5px;
 	width: 80px;
 	border-radius: 50%;
 	background-color: white;
 	box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.15);
+
 	aspect-ratio: 1;
 	img {
 		border-radius: 50%;
