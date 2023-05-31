@@ -6,7 +6,7 @@ import {getSongs} from './Api';
 import Audio from './components/Audio';
 import Controls from './components/Controls';
 import Playlist from './components/Playlist';
-import {useLocation} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 const Loading = styled.div`
 	width: 100%;
@@ -114,19 +114,24 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
-	// Playlist
-	let songList;
-	const lastIndex = data?.length - 1;
 	// Navigating to the song that was clicked
 	const location = useLocation();
 	const songId = location?.state?.songId;
-	useEffect(() => {
-		if (songId && location) {
-			setCurrentSongIndex(songId - 1);
-			setIsPlaying(true);
+	// Playlist
+	const lastIndex = data?.length - 1;
+	let songList;
+	// Playlist
+	if (currentSongIndex <= lastIndex) {
+		if (currentSongIndex + 4 <= lastIndex) {
+			songList = data?.slice(currentSongIndex, currentSongIndex + 4);
+		} else {
+			const remaining = 4 - (lastIndex - currentSongIndex + 1);
+			songList = [
+				...data?.slice(currentSongIndex),
+				...data?.slice(0, remaining),
+			];
 		}
-	}, [songId]);
-
+	}
 	useEffect(() => {
 		if (audioRef.current) {
 			if (isPlaying) {
@@ -141,19 +146,29 @@ export default function Player() {
 		setProgress(startTime);
 	}, [startTime]);
 
-	// Playlist
-	if (currentSongIndex <= lastIndex) {
-		if (currentSongIndex + 4 <= lastIndex) {
-			songList = data?.slice(currentSongIndex, currentSongIndex + 4);
-		} else {
-			const remaining = 4 - (lastIndex - currentSongIndex + 1);
-			songList = [
-				...data?.slice(currentSongIndex),
-				...data?.slice(0, remaining),
-			];
+	useEffect(() => {
+		if (songId) {
+			setIsPlaying(false);
+			setCurrentSongIndex(songId - 1);
+			setTimeout(() => {
+				setIsPlaying(true);
+			}, 0);
 		}
-	}
+	}, [songId, location]);
 
+	const navigateNextSong = (songId) => {
+		if (songId) {
+			setIsPlaying(false);
+			setCurrentSongIndex(songId - 1);
+			setTimeout(() => {
+				setShowList(false);
+				setIsPlaying(true);
+			}, 0);
+		}
+	};
+	const ToggleShowList = () => {
+		setShowList((prev) => !prev);
+	};
 	const formattedTime = (sec) => {
 		const minute = Math.floor(sec / 60);
 		const second = sec % 60;
@@ -222,9 +237,6 @@ export default function Player() {
 			isPlaying ? audioRef.current.play() : audioRef.current.pause();
 		}
 	};
-	const ToggleShowList = () => {
-		setShowList((prev) => !prev);
-	};
 	return (
 		<div className="wrapper">
 			<Container isLoading={isLoading} className="app-container">
@@ -243,7 +255,12 @@ export default function Player() {
 					<PlayerContainer>
 						<MenuButton>
 							<Button>
-								<i className="fa-solid fa-bars"></i>
+								<Link to="/play">
+									<i className="fa-solid fa-bars"></i>
+								</Link>
+							</Button>
+							<Button>
+								<Link to="/discover">dsjadjas</Link>
 							</Button>
 						</MenuButton>
 						<Album>
@@ -304,7 +321,11 @@ export default function Player() {
 								<i className="fa-solid fa-chevron-up show-icon"></i>
 							)}
 						</Button>
-						<Playlist showList={showList} songList={songList} />
+						<Playlist
+							showList={showList}
+							songList={songList}
+							navigateNextSong={navigateNextSong}
+						/>
 					</PlayerContainer>
 				)}
 			</Container>

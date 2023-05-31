@@ -44,6 +44,7 @@ export default function Playlist(props) {
 		if (props.songList) {
 			return props.songList.slice(1).map((song) => (
 				<motion.div
+					onClick={() => props.navigateNextSong(song.id)}
 					className="overlay-song__list"
 					key={song.id}
 					initial={{backgroundColor: 'rgba(255,255,255,0)'}}
