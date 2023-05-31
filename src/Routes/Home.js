@@ -6,10 +6,10 @@ import {Link} from 'react-router-dom';
 const Container = styled.div`
 	background-image: ${(prop) =>
 		`url(${
-			prop.loading ? '/images/wave-haikei.png' : '/images/home-background.png'
+			prop.$loading ? '/images/wave-haikei.png' : '/images/home-background.png'
 		})`};
 	background-size: cover;
-	background-position: ${(props) => (props.loading ? ' bottom' : 'center')};
+	background-position: ${(props) => (props.$loading ? ' bottom' : 'center')};
 	background-repeat: no-repeat;
 `;
 const Logo = styled(motion.div)`
@@ -96,9 +96,9 @@ const Text = styled(motion.h2)`
 	line-height: 1.2;
 	font-family: 'Mukta', sans-serif;
 	font-weight: 600;
-	font-size: ${(props) => (props.lastLine ? '22px' : '17px')};
-	text-align: ${(props) => (props.lastLine ? 'center' : 'left')};
-	color: ${(props) => (props.lastLine ? props.theme.blue : props.theme.brown)};
+	font-size: ${(props) => (props.$lastline ? '22px' : '17px')};
+	text-align: ${(props) => (props.$lastline ? 'center' : 'left')};
+	color: ${(props) => (props.$lastline ? props.theme.blue : props.theme.brown)};
 `;
 
 const NextBtn = styled(motion.button)`
@@ -156,15 +156,15 @@ const buttonVariants = {
 };
 
 export default function Home() {
-	const [loading, setLoading] = useState(1);
+	const [loading, setLoading] = useState(true);
 	const [line, setLine] = useState(
 		"Welcome to ACNH Music Player! I'm K.K. Slider, the howlin' hound with a guitar in paw."
 	);
 	const [animate, setAnimate] = useState(true);
-	const [lastLine, setListLine] = useState(false);
+	const [lastline, setListLine] = useState(false);
 	useEffect(() => {
 		setTimeout(() => {
-			setLoading(0);
+			setLoading(false);
 		}, 6000);
 	}, []);
 	const showDialouge = () => {
@@ -185,7 +185,7 @@ export default function Home() {
 
 	return (
 		<div className="wrapper">
-			<Container className="app-container" loading={loading}>
+			<Container className="app-container" $loading={loading}>
 				{loading ? (
 					<>
 						<Logo initial="initial" animate="animate" variants={logoVariants}>
@@ -210,7 +210,7 @@ export default function Home() {
 					<>
 						<Dialogue src="/images/dialogue.png" />
 						<NameTag>K.K.</NameTag>
-						<Text lastLine={lastLine}>
+						<Text $lastline={lastline}>
 							{line.split('').map(
 								(char, index) =>
 									animate && (
@@ -230,12 +230,12 @@ export default function Home() {
 							initial="initial"
 							animate="animate"
 							onClick={showDialouge}>
-							{lastLine ? (
+							{lastline ? (
 								<Link to="/play">
-									<i class="fa-solid fa-sort-down"></i>
+									<i className="fa-solid fa-sort-down"></i>
 								</Link>
 							) : (
-								<i class="fa-solid fa-sort-down"></i>
+								<i className="fa-solid fa-sort-down"></i>
 							)}
 						</NextBtn>
 					</>
