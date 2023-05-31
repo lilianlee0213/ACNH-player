@@ -1,5 +1,5 @@
 import {motion} from 'framer-motion';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Songs from '../components/Songs';
 import {getSongs} from '../Api';
@@ -64,22 +64,38 @@ const Title = styled.h4`
 export default function Discover() {
 	const {data} = useQuery('songs', getSongs);
 	const topSongs = data?.filter((song) => song['buy-price'] === null);
+	const isabellePicks = [
+		data?.[67],
+		data?.[44],
+		data?.[77],
+		data?.[86],
+		data?.[4],
+	];
+	const tomPicks = [data?.[20], data?.[64], data?.[39], data?.[53], data?.[9]];
 	const [showList, setShowList] = useState(false);
-	const handleToggle = () => {
+	const [selectedSection, setSelectedSection] = useState(null);
+	const handleToggle = (section) => {
 		setShowList((prev) => !prev);
+		setSelectedSection(section);
 	};
 	return (
 		<Wrapper>
 			<Container>
-				<Section className="top-songs" onClick={handleToggle}>
+				<Section
+					className="top-songs"
+					onClick={() => handleToggle('top-songs')}>
 					<Title style={{color: '#5E8FC0'}}>Top Songs</Title>
 					<Image src="/images/characters/kk-slider.webp" />
 				</Section>
-				<Section className="isabelle-picks" onClick={handleToggle}>
+				<Section
+					className="isabelle-picks"
+					onClick={() => handleToggle('isabelle-picks')}>
 					<Image className="isabelle" src="/images/characters/isabelle.webp" />
 					<Title style={{color: '#E6BE2F'}}>Isabelle's Picks</Title>
 				</Section>
-				<Section className="tom-picks">
+				<Section
+					className="tom-picks"
+					onClick={() => handleToggle('tom-picks')}>
 					<Title style={{color: '#62AB7A'}} onClick={handleToggle}>
 						Tom Nook's Picks
 					</Title>
@@ -88,7 +104,10 @@ export default function Discover() {
 				<Songs
 					showList={showList}
 					handleToggle={handleToggle}
+					selectedSection={selectedSection}
 					topSongs={topSongs}
+					isabellePicks={isabellePicks}
+					tomPicks={tomPicks}
 				/>
 			</Container>
 		</Wrapper>
