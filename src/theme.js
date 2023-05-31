@@ -12,6 +12,7 @@ export const defaultTheme = {
 	lightBlue: '#BCDFF8',
 	blue: '#77BCD9',
 	darkBlue: '#54A3BD',
+	lightPink: '#FFECE7',
 	pink: '#ef758a',
 	brown: '#836E50',
 };
