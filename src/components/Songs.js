@@ -19,6 +19,13 @@ export default function Songs(props) {
 				height: props.showList ? '100%' : 0,
 				transition: {duration: 0.5},
 			}}>
+			<div>
+				{props.topSongs.map((song) => (
+					<div key={song.id} id={song.id}>
+						{song.name['name-USen']}
+					</div>
+				))}
+			</div>
 			<Button
 				onClick={props.handleToggle}
 				whileHover={{scale: 1.2, transition: {type: 'tween'}}}>

@@ -2,6 +2,8 @@ import {motion} from 'framer-motion';
 import {useState} from 'react';
 import styled from 'styled-components';
 import Songs from '../components/Songs';
+import {getSongs} from '../Api';
+import {useQuery} from 'react-query';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -60,6 +62,8 @@ const Title = styled.h4`
 `;
 
 export default function Discover() {
+	const {data} = useQuery('songs', getSongs);
+	const topSongs = data?.filter((song) => song['buy-price'] === null);
 	const [showList, setShowList] = useState(false);
 	const handleToggle = () => {
 		setShowList((prev) => !prev);
@@ -81,7 +85,11 @@ export default function Discover() {
 					</Title>
 					<Image src="/images/characters/tom-nook.webp" />
 				</Section>
-				<Songs showList={showList} handleToggle={handleToggle} />
+				<Songs
+					showList={showList}
+					handleToggle={handleToggle}
+					topSongs={topSongs}
+				/>
 			</Container>
 		</Wrapper>
 	);
