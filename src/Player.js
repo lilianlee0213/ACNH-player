@@ -6,6 +6,7 @@ import {getSongs} from './Api';
 import Audio from './components/Audio';
 import Controls from './components/Controls';
 import Playlist from './components/Playlist';
+import {useLocation} from 'react-router-dom';
 
 const Loading = styled.div`
 	width: 100%;
@@ -113,19 +114,19 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
+	// Playlist
 	let songList;
 	const lastIndex = data?.length - 1;
-	if (currentSongIndex <= lastIndex) {
-		if (currentSongIndex + 4 <= lastIndex) {
-			songList = data?.slice(currentSongIndex, currentSongIndex + 4);
-		} else {
-			const remaining = 4 - (lastIndex - currentSongIndex + 1);
-			songList = [
-				...data?.slice(currentSongIndex),
-				...data?.slice(0, remaining),
-			];
+	// Navigating to the song that was clicked
+	const location = useLocation();
+	const songId = location?.state?.songId;
+	useEffect(() => {
+		if (songId && location) {
+			setCurrentSongIndex(songId - 1);
+			setIsPlaying(true);
 		}
-	}
+	}, [songId]);
+
 	useEffect(() => {
 		if (audioRef.current) {
 			if (isPlaying) {
@@ -139,6 +140,20 @@ export default function Player() {
 	useEffect(() => {
 		setProgress(startTime);
 	}, [startTime]);
+
+	// Playlist
+	if (currentSongIndex <= lastIndex) {
+		if (currentSongIndex + 4 <= lastIndex) {
+			songList = data?.slice(currentSongIndex, currentSongIndex + 4);
+		} else {
+			const remaining = 4 - (lastIndex - currentSongIndex + 1);
+			songList = [
+				...data?.slice(currentSongIndex),
+				...data?.slice(0, remaining),
+			];
+		}
+	}
+
 	const formattedTime = (sec) => {
 		const minute = Math.floor(sec / 60);
 		const second = sec % 60;

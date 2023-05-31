@@ -1,4 +1,5 @@
 import {motion} from 'framer-motion';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
 const SongContainer = styled(motion.div)`
@@ -20,42 +21,41 @@ export default function DiscoverList(props) {
 	const getFavoriteSong = (section) => {
 		if (section) {
 			return (
-				<FavoriteSong
-					key={section[0].id}
-					id={section[0].id}
-					className="overlay-main__song">
-					<div className="overlay-main__img">
-						<img
-							src={section[0].image_uri}
-							alt={section[0].name['name-USen']}
-						/>
-					</div>
-					<h4 className="overlay-main__title">
-						{section[0].name['name-USen']}
-					</h4>
-				</FavoriteSong>
+				<Link to="/play" key={section[0].id} state={{songId: section[0].id}}>
+					<FavoriteSong className="overlay-main__song">
+						<div className="overlay-main__img">
+							<img
+								src={section[0].image_uri}
+								alt={section[0].name['name-USen']}
+							/>
+						</div>
+						<h4 className="overlay-main__title">
+							{section[0].name['name-USen']}
+						</h4>
+					</FavoriteSong>
+				</Link>
 			);
 		}
 	};
 	const getSongs = (section) => {
 		if (section) {
 			return section.slice(1).map((song) => (
-				<motion.div
-					className="overlay-song__list"
-					key={song.id}
-					id={song.id}
-					initial={{backgroundColor: 'rgba(255,255,255,0)'}}
-					whileHover={{
-						backgroundColor: 'rgba(255,255,255,1)',
-						transition: {duration: 0.3},
-					}}>
-					<img
-						className="overlay-song__img"
-						src={song.image_uri}
-						alt={song.name['name-USen']}
-					/>
-					<h4 className="overlay-song__title">{song.name['name-USen']}</h4>
-				</motion.div>
+				<Link to="/play" key={song.id} state={{songId: song.id}}>
+					<motion.div
+						className="overlay-song__list"
+						initial={{backgroundColor: 'rgba(255,255,255,0)'}}
+						whileHover={{
+							backgroundColor: 'rgba(255,255,255,1)',
+							transition: {duration: 0.3},
+						}}>
+						<img
+							className="overlay-song__img"
+							src={song.image_uri}
+							alt={song.name['name-USen']}
+						/>
+						<h4 className="overlay-song__title">{song.name['name-USen']}</h4>
+					</motion.div>
+				</Link>
 			));
 		}
 	};
