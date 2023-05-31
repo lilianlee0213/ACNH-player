@@ -67,7 +67,7 @@ const Button = styled(motion.button)`
 	color: ${(props) => props.theme.yellow};
 `;
 
-export default function Songs(props) {
+export default function DiscoverList(props) {
 	const getFavoriteSong = (section) => {
 		if (section) {
 			return (

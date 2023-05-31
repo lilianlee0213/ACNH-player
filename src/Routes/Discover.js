@@ -1,9 +1,9 @@
 import {motion} from 'framer-motion';
 import {useState} from 'react';
 import styled from 'styled-components';
-import Songs from '../components/Songs';
 import {getSongs} from '../Api';
 import {useQuery} from 'react-query';
+import DiscoverList from '../components/DiscoverList';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -102,7 +102,7 @@ export default function Discover() {
 					<Title style={{color: '#62AB7A'}}>Tom Nook's Picks</Title>
 					<Image src="/images/characters/tom-nook.webp" />
 				</Section>
-				<Songs
+				<DiscoverList
 					showList={showList}
 					handleToggle={handleToggle}
 					selectedSection={selectedSection}
