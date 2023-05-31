@@ -234,7 +234,7 @@ export default function Player() {
 						<Album>
 							<AlbumTitle>{song.name['name-USen']}</AlbumTitle>
 							<AlbumCover>
-								<AlbumImg src={song.image_uri} alt="Album Cover" />
+								<AlbumImg src={song.image_uri} alt={song.name['name-USen']} />
 								<Vinyl
 									animate={isPlaying ? {rotate: 360} : {rotate: 0}}
 									transition={
@@ -242,8 +242,16 @@ export default function Player() {
 											? {ease: 'linear', duration: 2, repeat: Infinity}
 											: {}
 									}>
-									<img src="/images/vinyl.png" className="vinyl-image" />
-									<img src={song.image_uri} className="album-image" />
+									<img
+										src="/images/vinyl.png"
+										alt="vinyl"
+										className="vinyl-image"
+									/>
+									<img
+										src={song.image_uri}
+										alt={song.name['name-USen']}
+										className="album-image"
+									/>
 								</Vinyl>
 							</AlbumCover>
 						</Album>

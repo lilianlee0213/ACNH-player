@@ -25,7 +25,10 @@ export default function DiscoverList(props) {
 					id={section[0].id}
 					className="overlay-main__song">
 					<div className="overlay-main__img">
-						<img src={section[0].image_uri} />
+						<img
+							src={section[0].image_uri}
+							alt={section[0].name['name-USen']}
+						/>
 					</div>
 					<h4 className="overlay-main__title">
 						{section[0].name['name-USen']}
@@ -46,7 +49,11 @@ export default function DiscoverList(props) {
 						backgroundColor: 'rgba(255,255,255,1)',
 						transition: {duration: 0.3},
 					}}>
-					<img className="overlay-song__img" src={song.image_uri} alt="" />
+					<img
+						className="overlay-song__img"
+						src={song.image_uri}
+						alt={song.name['name-USen']}
+					/>
 					<h4 className="overlay-song__title">{song.name['name-USen']}</h4>
 				</motion.div>
 			));

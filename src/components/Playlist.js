@@ -33,7 +33,7 @@ export default function Playlist(props) {
 			return (
 				<CurrentSong id={song.id} className="overlay-main__song">
 					<div className="overlay-main__img">
-						<img src={song.image_uri} />
+						<img src={song.image_uri} alt={song.name['name-USen']} />
 					</div>
 					<h4 className="overlay-main__title">{song.name['name-USen']}</h4>
 				</CurrentSong>
@@ -51,7 +51,11 @@ export default function Playlist(props) {
 						backgroundColor: 'rgba(255,255,255,1)',
 						transition: {duration: 0.3},
 					}}>
-					<img className="overlay-song__img" src={song.image_uri} alt="" />
+					<img
+						className="overlay-song__img"
+						src={song.image_uri}
+						alt={song.name['name-USen']}
+					/>
 					<h4 className="overlay-song__title">{song.name['name-USen']}</h4>
 				</motion.div>
 			));

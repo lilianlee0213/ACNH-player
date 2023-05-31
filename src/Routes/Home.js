@@ -189,8 +189,16 @@ export default function Home() {
 				{loading ? (
 					<>
 						<Logo initial="initial" animate="animate" variants={logoVariants}>
-							<LogoImg className="guitar" src="/images/guitar.png" alt="" />
-							<LogoImg src="/images/K.K.Slider.png" className="kk-sldier" />
+							<LogoImg
+								className="guitar"
+								src="/images/guitar.png"
+								alt="guitar"
+							/>
+							<LogoImg
+								src="/images/K.K.Slider.png"
+								className="kk-sldier"
+								alt="k.k.Slider"
+							/>
 							<LogoText className="logo-acnh">
 								<span>A</span>
 								<span>C</span>
