@@ -4,16 +4,10 @@ import styled from 'styled-components';
 const SongContainer = styled(motion.div)`
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	left: 0;
+	bottom: 0;
+	overflow-y: hidden;
 	border-radius: 15px;
-	background-color: ${(props) =>
-		props.selectedSection === 'top-songs'
-			? props.theme.lightBlue
-			: props.selectedSection === 'isabelle-picks'
-			? props.theme.lightYellow
-			: props.selectedSection === 'tom-picks'
-			? props.theme.lightGreen
-			: ''};
 `;
 const Button = styled(motion.button)`
 	font-size: 25px;
@@ -22,13 +16,22 @@ const Button = styled(motion.button)`
 const Album = styled.img`
 	width: 80px;
 `;
+
 export default function Songs(props) {
 	return (
 		<SongContainer
-			selectedSection={props.selectedSection}
+			style={{
+				backgroundColor:
+					props.selectedSection === 'top-songs'
+						? '#BCDFF8'
+						: props.selectedSection === 'isabelle-picks'
+						? '#FFF2BB'
+						: props.selectedSection === 'tom-picks'
+						? '#CFF9DB'
+						: '#f8eebc',
+			}}
 			animate={{
 				height: props.showList ? '100%' : 0,
-				transition: {duration: 0.5},
 			}}>
 			<div>
 				{props.showList && props.selectedSection === 'top-songs' && (
@@ -62,11 +65,13 @@ export default function Songs(props) {
 					</>
 				)}
 			</div>
-			<Button
-				onClick={props.handleToggle}
-				whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
-				{props.showList && <i className="fa-solid fa-chevron-down show-icon" />}
-			</Button>
+			{props.showList && (
+				<Button
+					onClick={props.handleToggle}
+					whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
+					<i className="fa-solid fa-chevron-down show-icon" />
+				</Button>
+			)}
 		</SongContainer>
 	);
 }

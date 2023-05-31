@@ -25,7 +25,7 @@ const Container = styled.div`
 	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background-color: #fff9de;
 `;
-const Section = styled.section`
+const Section = styled(motion.section)`
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -83,22 +83,23 @@ export default function Discover() {
 			<Container>
 				<Section
 					className="top-songs"
+					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('top-songs')}>
 					<Title style={{color: '#5E8FC0'}}>Top Songs</Title>
 					<Image src="/images/characters/kk-slider.webp" />
 				</Section>
 				<Section
 					className="isabelle-picks"
+					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('isabelle-picks')}>
 					<Image className="isabelle" src="/images/characters/isabelle.webp" />
 					<Title style={{color: '#E6BE2F'}}>Isabelle's Picks</Title>
 				</Section>
 				<Section
 					className="tom-picks"
+					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('tom-picks')}>
-					<Title style={{color: '#62AB7A'}} onClick={handleToggle}>
-						Tom Nook's Picks
-					</Title>
+					<Title style={{color: '#62AB7A'}}>Tom Nook's Picks</Title>
 					<Image src="/images/characters/tom-nook.webp" />
 				</Section>
 				<Songs
