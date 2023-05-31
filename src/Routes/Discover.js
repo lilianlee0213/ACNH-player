@@ -5,30 +5,14 @@ import {getSongs} from '../Api';
 import {useQuery} from 'react-query';
 import DiscoverList from '../components/DiscoverList';
 
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	margin: 0 20px;
-`;
 const Container = styled.div`
-	position: relative;
 	display: grid;
-	grid-template-rows: repeat(3 1fr);
+	grid-template-rows: repeat(3, 1fr);
 	gap: 20px;
-	width: 290px;
-	height: 508px;
-	padding: 20px;
-	border-radius: 15px;
-	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background-color: #fff9de;
 `;
 const Section = styled(motion.section)`
 	display: flex;
-	width: 100%;
-	height: 100%;
 	padding-inline: 10px;
 	border-radius: 10px;
 	font-family: 'Mukta', sans-serif;
@@ -79,8 +63,8 @@ export default function Discover() {
 		setSelectedSection(section);
 	};
 	return (
-		<Wrapper>
-			<Container>
+		<div className="wrapper">
+			<Container className="app-container">
 				<Section
 					className="top-songs"
 					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
@@ -111,6 +95,6 @@ export default function Discover() {
 					tomPicks={tomPicks}
 				/>
 			</Container>
-		</Wrapper>
+		</div>
 	);
 }

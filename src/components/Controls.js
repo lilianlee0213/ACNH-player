@@ -20,7 +20,6 @@ const Button = styled(motion.button)`
 		border: 2px solid ${(props) => props.theme.beige};
 		border-radius: 50%;
 		font-size: 30px;
-
 		.fa-play {
 			padding-left: 6px;
 			font-size: 28px;

@@ -7,14 +7,6 @@ import Audio from './components/Audio';
 import Controls from './components/Controls';
 import Playlist from './components/Playlist';
 
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	margin: 0 20px;
-`;
 const Loading = styled.div`
 	width: 100%;
 	height: 100%;
@@ -28,12 +20,8 @@ const Loading = styled.div`
 	}
 `;
 const Container = styled.div`
-	position: relative;
-	width: 290px;
-	height: 508px;
 	padding: 20px 20px 10px;
 	border-radius: 15px;
-	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background: ${(props) =>
 		props.isLoading ? props.theme.green : 'url("/images/background.jpeg")'};
 	background-size: cover;
@@ -223,8 +211,8 @@ export default function Player() {
 		setShowList((prev) => !prev);
 	};
 	return (
-		<Wrapper>
-			<Container isLoading={isLoading}>
+		<div className="wrapper">
+			<Container isLoading={isLoading} className="app-container">
 				{isLoading ? (
 					<Loading>
 						<motion.i
@@ -297,6 +285,6 @@ export default function Player() {
 					</PlayerContainer>
 				)}
 			</Container>
-		</Wrapper>
+		</div>
 	);
 }

@@ -1,70 +1,19 @@
 import {motion} from 'framer-motion';
 import styled from 'styled-components';
-const Container = styled(motion.div)`
-	position: absolute;
-	left: 0;
-	bottom: 0px;
-	width: 290px;
-	height: 0;
+
+const SongContainer = styled(motion.div)`
 	color: ${(props) => props.theme.black};
 	background-color: ${(props) => props.theme.lightBlue};
-	border-radius: 15px;
 	z-index: 2;
-	overflow-y: hidden;
 `;
-const ListContainer = styled(motion.div)`
-	margin: 20px;
-	text-align: center;
-	h1 {
-		margin-bottom: 20px;
-		font-size: 24px;
-		font-family: 'Mukta', sans-serif;
-		font-weight: 600;
-	}
-`;
-const SongList = styled(motion.div)`
-	display: flex;
-	align-items: center;
-	gap: 15px;
-	padding: 5px;
-	border-radius: 4px;
-	img {
-		width: 50px;
-		border-radius: 4px;
-	}
-	h4 {
-		font-size: 18px;
-		text-transform: uppercase;
-	}
+const Title = styled.h1`
+	margin-bottom: 20px;
+	color: #5e8fc0;
 `;
 const CurrentSong = styled.div`
-	height: 210px;
 	margin-top: 20px;
-	padding: 10px;
-	border-radius: 10px;
+	height: 210px;
 	background-color: ${(props) => props.theme.lightGreen};
-	box-shadow: 0px 8px 35px -3px rgba(0, 0, 0, 0.15);
-	h4 {
-		font-size: 22px;
-		text-transform: uppercase;
-	}
-`;
-const CurrentAlbum = styled.div`
-	display: flex;
-	flex-direction: column;
-	margin: 0 auto;
-	margin-bottom: 10px;
-	padding: 5px;
-	width: 80px;
-	border-radius: 50%;
-	background-color: white;
-	box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.15);
-
-	aspect-ratio: 1;
-	img {
-		border-radius: 50%;
-		width: 100%;
-	}
 `;
 
 const containerVariants = {
@@ -82,11 +31,11 @@ export default function Playlist(props) {
 		if (props.songList) {
 			let song = props.songList[0];
 			return (
-				<CurrentSong id={song.id}>
-					<CurrentAlbum>
+				<CurrentSong id={song.id} className="overlay-main__song">
+					<div className="overlay-main__img">
 						<img src={song.image_uri} />
-					</CurrentAlbum>
-					<h4>{song.name['name-USen']}</h4>
+					</div>
+					<h4 className="overlay-main__title">{song.name['name-USen']}</h4>
 				</CurrentSong>
 			);
 		}
@@ -94,30 +43,34 @@ export default function Playlist(props) {
 	const getNextSongs = () => {
 		if (props.songList) {
 			return props.songList.slice(1).map((song) => (
-				<SongList
+				<motion.div
+					className="overlay-song__list"
 					key={song.id}
 					initial={{backgroundColor: 'rgba(255,255,255,0)'}}
 					whileHover={{
 						backgroundColor: 'rgba(255,255,255,1)',
 						transition: {duration: 0.3},
 					}}>
-					<img src={song.image_uri} alt="" />
-					<h4>{song.name['name-USen']}</h4>
-				</SongList>
+					<img className="overlay-song__img" src={song.image_uri} alt="" />
+					<h4 className="overlay-song__title">{song.name['name-USen']}</h4>
+				</motion.div>
 			));
 		}
 	};
 	return (
-		<Container
+		<SongContainer
+			className="overlay"
 			variants={containerVariants}
 			animate={props.showList ? 'show' : 'hide'}>
-			<ListContainer>
+			<motion.div className="overlay-container">
 				<>
-					<h1 style={{color: '#5E8FC0'}}>Playing Next</h1>
+					<Title style={{}} className="overlay-title">
+						Playing Next
+					</Title>
 					{getNextSongs()}
 					{getCurrentSong()}
 				</>
-			</ListContainer>
-		</Container>
+			</motion.div>
+		</SongContainer>
 	);
 }

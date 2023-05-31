@@ -1,0 +1,74 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0 20px;
+}
+.app-container {
+	position: relative;
+	width: 290px;
+	height: 508px;
+	padding: 20px;
+	border-radius: 15px;
+	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
+}
+.overlay {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 0;
+	border-radius: 15px;
+	overflow-y: hidden;
+}
+.overlay-container {
+	margin: 20px;
+	text-align: center;
+}
+.overlay-title {
+	font-size: 24px;
+	font-family: 'Mukta', sans-serif;
+	font-weight: 600;
+}
+.overlay-song__list {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	padding: 5px;
+	border-radius: 4px;
+}
+.overlay-song__img {
+	width: 50px;
+	border-radius: 4px;
+}
+.overlay-song__title {
+	font-size: 18px;
+	text-transform: uppercase;
+}
+.overlay-main__song {
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0px 8px 35px -3px rgba(0, 0, 0, 0.15);
+}
+.overlay-main__title {
+	font-size: 22px;
+	text-transform: uppercase;
+}
+.overlay-main__img {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	padding: 5px;
+	width: 80px;
+	border-radius: 50%;
+	background-color: white;
+	box-shadow: 0px 8px 15px -3px rgba(0, 0, 0, 0.15);
+	aspect-ratio: 1;
+}
+.overlay-main__img img {
+	border-radius: 50%;
+	width: 100%;
+}

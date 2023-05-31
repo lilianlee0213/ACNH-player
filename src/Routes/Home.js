@@ -1,24 +1,9 @@
 import styled from 'styled-components';
-import {delay, motion, transform, useAnimationControls} from 'framer-motion';
+import {motion} from 'framer-motion';
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	margin: 0 20px;
-`;
-
 const Container = styled.div`
-	position: relative;
-	width: 290px;
-	height: 508px;
-	padding: 20px;
-	border-radius: 15px;
-	box-shadow: 0px 15px 35px -5px rgba(50, 88, 130, 0.32);
 	background-image: ${(prop) =>
 		`url(${
 			prop.loading ? '/images/wave-haikei.png' : '/images/home-background.png'
@@ -57,7 +42,6 @@ const LogoText = styled.h1`
 	&.logo-acnh {
 		font-size: 60px;
 		top: 20px;
-		/* left: 50px; */
 		span:first-child,
 		span:last-child {
 			color: ${(props) => props.theme.green};
@@ -201,8 +185,8 @@ export default function Home() {
 	};
 
 	return (
-		<Wrapper>
-			<Container loading={loading}>
+		<div className="wrapper">
+			<Container className="app-container" loading={loading}>
 				{loading ? (
 					<>
 						<Logo initial="initial" animate="animate" variants={logoVariants}>
@@ -258,6 +242,6 @@ export default function Home() {
 					</>
 				)}
 			</Container>
-		</Wrapper>
+		</div>
 	);
 }
