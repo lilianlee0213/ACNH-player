@@ -1,6 +1,7 @@
+import {motion} from 'framer-motion';
 import styled from 'styled-components';
 
-const AudioFile = styled.div`
+const AudioFile = styled(motion.div)`
 	width: 100%;
 `;
 
@@ -56,7 +57,16 @@ const AudioMeta = styled.div`
 `;
 export default function Audio(props) {
 	return (
-		<AudioFile>
+		<AudioFile
+			style={{
+				marginBottom: props.showList ? '20px' : 'inherit',
+				padding: props.showList ? '0 20px' : 'inherit',
+				zIndex: props.showList ? 1000 : 0,
+			}}
+			animate={{
+				opacity: props.showList && [0, 1],
+				transition: {delay: 0.25},
+			}}>
 			<ProgressBar
 				type="range"
 				step="1"

@@ -53,9 +53,6 @@ const SongList = styled(motion.div)`
 	gap: 15px;
 	padding: 5px;
 	border-radius: 4px;
-	/* &:not(:last-child) {
-		margin-bottom: 10px;
-	} */
 	img {
 		width: 50px;
 		border-radius: 4px;
@@ -83,14 +80,16 @@ export default function Songs(props) {
 			);
 		}
 	};
-	const songs = (section) => {
+	const getSongs = (section) => {
 		if (section) {
 			return section.slice(1).map((song) => (
 				<SongList
 					key={song.id}
 					id={song.id}
+					initial={{backgroundColor: 'rgba(255,255,255,0)'}}
 					whileHover={{
-						backgroundColor: 'white',
+						backgroundColor: 'rgba(255,255,255,1)',
+						transition: {duration: 0.3},
 					}}>
 					<img src={song.image_uri} alt="" />
 					<h4>{song.name['name-USen']}</h4>
@@ -118,21 +117,21 @@ export default function Songs(props) {
 					<>
 						<h1 style={{color: '#5E8FC0'}}>Top Songs</h1>
 						<div>{getFavoriteSong(props.topSongs)}</div>
-						<div>{songs(props.topSongs)}</div>
+						<div>{getSongs(props.topSongs)}</div>
 					</>
 				)}
 				{props.showList && props.selectedSection === 'isabelle-picks' && (
 					<>
 						<h1 style={{color: '#E6BE2F'}}>Isabelle's Picks</h1>
 						<div>{getFavoriteSong(props.isabellePicks)}</div>
-						<div>{songs(props.isabellePicks)}</div>
+						<div>{getSongs(props.isabellePicks)}</div>
 					</>
 				)}
 				{props.showList && props.selectedSection === 'tom-picks' && (
 					<>
 						<h1 style={{color: '#62AB7A'}}>Tom Nook's Picks</h1>
 						<div>{getFavoriteSong(props.tomPicks)}</div>
-						<div>{songs(props.tomPicks)}</div>
+						<div>{getSongs(props.tomPicks)}</div>
 					</>
 				)}
 				{props.showList && (

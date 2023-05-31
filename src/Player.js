@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import {getSongs} from './Api';
 import Audio from './components/Audio';
 import Controls from './components/Controls';
-import List from './components/List';
+import Playlist from './components/Playlist';
+
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -107,10 +108,10 @@ const Button = styled(motion.button)`
 		z-index: ${(props) => (props.showList ? 1000 : 0)};
 	}
 	.show-icon {
-		color: ${(props) => props.theme.beige};
+		color: ${(props) => props.theme.yellow};
 	}
 	.close-icon {
-		color: ${(props) => props.theme.yellow};
+		color: ${(props) => props.theme.blue};
 	}
 `;
 export default function Player() {
@@ -124,7 +125,7 @@ export default function Player() {
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
-	const songList = data?.slice(currentSongIndex, currentSongIndex + 5);
+	const songList = data?.slice(currentSongIndex, currentSongIndex + 4);
 	useEffect(() => {
 		if (audioRef.current) {
 			if (isPlaying) {
@@ -254,6 +255,7 @@ export default function Player() {
 							button={Button}
 						/>
 						<Audio
+							showList={showList}
 							time={formattedTime(parseInt(startTime))}
 							duration={formattedTime(parseInt(endTime))}
 							value={progress}
@@ -266,17 +268,20 @@ export default function Player() {
 							handleDuration={handleDuration}
 						/>
 						<Button
-							style={{zIndex: showList && '1000'}}
+							style={{
+								zIndex: showList && '1000',
+								marginBottom: showList && '10px',
+							}}
 							className="show-btn"
 							onClick={ToggleShowList}
 							whileHover={{scale: 1.2, transition: {type: 'tween'}}}>
 							{showList ? (
-								<i className="fa-solid fa-chevron-down show-icon"></i>
+								<i className="fa-solid fa-chevron-down close-icon"></i>
 							) : (
-								<i className="fa-solid fa-chevron-up close-icon"></i>
+								<i className="fa-solid fa-chevron-up show-icon"></i>
 							)}
 						</Button>
-						<List showList={showList} songList={songList} />
+						<Playlist showList={showList} songList={songList} />
 					</PlayerContainer>
 				)}
 			</Container>
