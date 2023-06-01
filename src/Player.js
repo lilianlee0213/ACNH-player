@@ -36,7 +36,6 @@ const PlayerContainer = styled.div`
 	height: 100%;
 	max-width: 400px;
 `;
-
 const MenuButton = styled.div`
 	align-self: flex-start;
 	margin-bottom: 10px;
@@ -87,9 +86,9 @@ const Vinyl = styled(motion.div)`
 	}
 `;
 const Button = styled(motion.button)`
-	margin: 0 auto;
 	width: fit-content;
 	font-size: 25px;
+	margin: 0 auto;
 	.fa-bars {
 		color: ${(props) => props.theme.green};
 	}
@@ -103,6 +102,28 @@ const Button = styled(motion.button)`
 		color: ${(props) => props.theme.blue};
 	}
 `;
+const Sidebar = styled(motion.div)`
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: ${(props) => props.theme.lightBlue};
+	height: 100%;
+	z-index: 10000;
+	overflow: hidden;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	.close-btn {
+		margin: inherit;
+		align-self: flex-end;
+		padding-top: 20px;
+		padding-right: 10px;
+	}
+	.close-icon {
+		font-size: 30px;
+	}
+`;
 export default function Player() {
 	const {data, isLoading} = useQuery('songs', getSongs);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -111,6 +132,7 @@ export default function Player() {
 	const [progress, setProgress] = useState(0);
 	const [endTime, setEndTime] = useState(0);
 	const [showList, setShowList] = useState(false);
+	const [showSidebar, setShowSideBar] = useState(false);
 	const audioRef = useRef(null);
 	const previousSongIndex = useRef(null);
 	const song = data?.[currentSongIndex];
@@ -165,6 +187,9 @@ export default function Player() {
 				setIsPlaying(true);
 			}, 0);
 		}
+	};
+	const ToggleSidebar = () => {
+		setShowSideBar((prev) => !prev);
 	};
 	const ToggleShowList = () => {
 		setShowList((prev) => !prev);
@@ -254,13 +279,8 @@ export default function Player() {
 				) : (
 					<PlayerContainer>
 						<MenuButton>
-							<Button>
-								<Link to="/play">
-									<i className="fa-solid fa-bars"></i>
-								</Link>
-							</Button>
-							<Button>
-								<Link to="/discover">dsjadjas</Link>
+							<Button onClick={ToggleSidebar}>
+								<i className="fa-solid fa-bars" />
 							</Button>
 						</MenuButton>
 						<Album>
@@ -321,11 +341,30 @@ export default function Player() {
 								<i className="fa-solid fa-chevron-up show-icon"></i>
 							)}
 						</Button>
+						<Sidebar
+							initial={{width: 0}}
+							animate={{
+								width: showSidebar ? '75%' : 0,
+								transition: {duration: 0.3},
+							}}>
+							<Button onClick={ToggleSidebar} className="close-btn">
+								<i className="fa-solid fa-xmark close-icon" />
+							</Button>
+							<Link to="/discover" className="sidebar-link">
+								Discover
+							</Link>
+						</Sidebar>
 						<Playlist
 							showList={showList}
 							songList={songList}
 							navigateNextSong={navigateNextSong}
 						/>
+						<div
+							className="overlay"
+							style={{
+								backgroundColor: showSidebar && 'rgba(0,0,0,0.5)',
+								height: showSidebar ? '100%' : 0,
+							}}></div>
 					</PlayerContainer>
 				)}
 			</Container>

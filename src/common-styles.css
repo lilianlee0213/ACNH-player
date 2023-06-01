@@ -106,3 +106,14 @@
 .progress-bar::-moz-range-thumb:hover {
 	transform: scale(1.4);
 }
+.sidebar-link {
+	padding: 10px 20px;
+	margin-top: 10px;
+	font-size: 22px;
+	color: #5e8fc0;
+	letter-spacing: 1px;
+	transition: all 0.3s ease-in-out;
+}
+.sidebar-link:hover {
+	background: white;
+}
