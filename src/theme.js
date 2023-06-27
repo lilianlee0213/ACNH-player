@@ -69,16 +69,16 @@ body{
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  background: url(/images/background-large.jpeg);
+  /* background: url(/images/background-large.jpeg); */
   background-repeat: no-repeat;
   background-size: cover;
   font-family: 'Boogaloo', cursive;
 }
-@media only screen and (max-width:720px) {
+/* @media only screen and (max-width:720px) {
   body{
     background: url(/images/background-medium.jpeg);
   }
-}
+} */
 
 a{
 	text-decoration: none;

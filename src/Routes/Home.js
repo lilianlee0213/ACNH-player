@@ -184,7 +184,7 @@ export default function Home() {
 			}
 		}, 0);
 	};
-
+	console.log(process.env.PUBLIC_URL);
 	return (
 		<div className="wrapper">
 			<Container className="app-container" $loading={loading}>
@@ -241,7 +241,7 @@ export default function Home() {
 							animate="animate"
 							onClick={showDialouge}>
 							{lastline ? (
-								<Link to={process.env.PUBLIC_URL + '/play'}>
+								<Link to="/play">
 									<i className="fa-solid fa-sort-down"></i>
 								</Link>
 							) : (
