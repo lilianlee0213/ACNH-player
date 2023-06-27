@@ -6,7 +6,9 @@ import {Link} from 'react-router-dom';
 const Container = styled.div`
 	background-image: ${(prop) =>
 		`url(${
-			prop.$loading ? '/images/wave-haikei.png' : '/images/home-background.png'
+			prop.$loading
+				? `${process.env.PUBLIC_URL}/images/wave-haikei.png`
+				: `${process.env.PUBLIC_URL}/images/home-background.png`
 		})`};
 	background-size: cover;
 	background-position: ${(props) => (props.$loading ? ' bottom' : 'center')};
@@ -191,11 +193,11 @@ export default function Home() {
 						<Logo initial="initial" animate="animate" variants={logoVariants}>
 							<LogoImg
 								className="guitar"
-								src="/images/guitar.png"
+								src={process.env.PUBLIC_URL + '/images/guitar.png'}
 								alt="guitar"
 							/>
 							<LogoImg
-								src="/images/K.K.Slider.png"
+								src={process.env.PUBLIC_URL + '/images/K.K.Slider.png'}
 								className="kk-sldier"
 								alt="k.k.Slider"
 							/>
@@ -216,7 +218,7 @@ export default function Home() {
 					</>
 				) : (
 					<>
-						<Dialogue src="/images/dialogue.png" />
+						<Dialogue src={process.env.PUBLIC_URL + '/images/dialogue.png'} />
 						<NameTag>K.K.</NameTag>
 						<Text $lastline={lastline}>
 							{line.split('').map(
