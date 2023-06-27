@@ -8,9 +8,13 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<Home />}></Route>
-				<Route path="/discover" element={<Discover />}></Route>
-				<Route path="/play" element={<Player />}></Route>
+				<Route path={process.env.PUBLIC_URL + '/'} element={<Home />}></Route>
+				<Route
+					path={process.env.PUBLIC_URL + '/discover'}
+					element={<Discover />}></Route>
+				<Route
+					path={process.env.PUBLIC_URL + '/play'}
+					element={<Player />}></Route>
 			</Routes>
 		</BrowserRouter>
 	);
