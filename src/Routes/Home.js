@@ -241,7 +241,7 @@ export default function Home() {
 							animate="animate"
 							onClick={showDialouge}>
 							{lastline ? (
-								<Link to="/play">
+								<Link to={process.env.PUBLIC_URL + '/play'}>
 									<i className="fa-solid fa-sort-down"></i>
 								</Link>
 							) : (

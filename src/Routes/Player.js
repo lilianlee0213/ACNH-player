@@ -2,10 +2,10 @@ import {useQuery} from 'react-query';
 import {useEffect, useRef, useState} from 'react';
 import {motion} from 'framer-motion';
 import styled from 'styled-components';
-import {getSongs} from './Api';
-import Audio from './components/Audio';
-import Controls from './components/Controls';
-import Playlist from './components/Playlist';
+import {getSongs} from '../Api';
+import Audio from '../components/Audio';
+import Controls from '../components/Controls';
+import Playlist from '../components/Playlist';
 import {Link, useLocation} from 'react-router-dom';
 
 const Loading = styled.div`
@@ -24,7 +24,9 @@ const Container = styled.div`
 	padding: 20px 20px 10px;
 	border-radius: 15px;
 	background: ${(props) =>
-		props.isLoading ? props.theme.green : 'url("/images/background.jpeg")'};
+		props.isLoading
+			? props.theme.green
+			: `url(${process.env.PUBLIC_URL}/images/background.jpeg)`};
 	background-size: cover;
 	background-position: bottom;
 	background-repeat: no-repeat;
@@ -295,7 +297,7 @@ export default function Player() {
 											: {}
 									}>
 									<img
-										src="/images/vinyl.png"
+										src={process.env.PUBLIC_URL + '/images/vinyl.png'}
 										alt="vinyl"
 										className="vinyl-image"
 									/>

@@ -70,13 +70,18 @@ export default function Discover() {
 					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('top-songs')}>
 					<Title style={{color: '#5E8FC0'}}>Top Songs</Title>
-					<Image src="/images/characters/kk-slider.webp" />
+					<Image
+						src={process.env.PUBLIC_URL + '/images/characters/kk-slider.webp'}
+					/>
 				</Section>
 				<Section
 					className="isabelle-picks"
 					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('isabelle-picks')}>
-					<Image className="isabelle" src="/images/characters/isabelle.webp" />
+					<Image
+						className="isabelle"
+						src={process.env.PUBLIC_URL + '/images/characters/isabelle.webp'}
+					/>
 					<Title style={{color: '#E6BE2F'}}>Isabelle's Picks</Title>
 				</Section>
 				<Section
@@ -84,7 +89,9 @@ export default function Discover() {
 					whileHover={{scale: 1.05, transition: {type: 'tween'}}}
 					onClick={() => handleToggle('tom-picks')}>
 					<Title style={{color: '#62AB7A'}}>Tom Nook's Picks</Title>
-					<Image src="/images/characters/tom-nook.webp" />
+					<Image
+						src={process.env.PUBLIC_URL + '/images/characters/tom-nook.webp'}
+					/>
 				</Section>
 				<DiscoverList
 					showList={showList}
