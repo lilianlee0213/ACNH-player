@@ -184,7 +184,6 @@ export default function Home() {
 			}
 		}, 0);
 	};
-	console.log(process.env.PUBLIC_URL);
 	return (
 		<div className="wrapper">
 			<Container className="app-container" $loading={loading}>
