@@ -7,7 +7,7 @@ ACNH (Animal Crossing: New Horizons) Player is a music player designed with a us
 
 - Retrieve music data from the ACNH free RESTful API.
 - Discover various music tracks available in the Animal Crossing: New Horizons game.
-- Get recommended songs by popular ACNH villagers.
+- Get top songs and recommended songs by popular ACNH villagers.
 - Play, pause, and control the timeline of the music tracks.
 - Enjoy a user interface that is reminiscent of Animal Crossing's aesthetic.
 
