@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ACNH-player/static/css/main.48bf8c6a.css",
-    "main.js": "/ACNH-player/static/js/main.b26c08bb.js",
+    "main.js": "/ACNH-player/static/js/main.87b28068.js",
     "index.html": "/ACNH-player/index.html",
     "main.48bf8c6a.css.map": "/ACNH-player/static/css/main.48bf8c6a.css.map",
-    "main.b26c08bb.js.map": "/ACNH-player/static/js/main.b26c08bb.js.map"
+    "main.87b28068.js.map": "/ACNH-player/static/js/main.87b28068.js.map"
   },
   "entrypoints": [
     "static/css/main.48bf8c6a.css",
-    "static/js/main.b26c08bb.js"
+    "static/js/main.87b28068.js"
   ]
 }
