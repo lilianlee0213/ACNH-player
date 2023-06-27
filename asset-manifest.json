@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/github.io/ACNH-player/static/css/main.48bf8c6a.css",
+    "main.js": "/github.io/ACNH-player/static/js/main.fbe0f09a.js",
+    "index.html": "/github.io/ACNH-player/index.html",
+    "main.48bf8c6a.css.map": "/github.io/ACNH-player/static/css/main.48bf8c6a.css.map",
+    "main.fbe0f09a.js.map": "/github.io/ACNH-player/static/js/main.fbe0f09a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.48bf8c6a.css",
+    "static/js/main.fbe0f09a.js"
+  ]
+}
